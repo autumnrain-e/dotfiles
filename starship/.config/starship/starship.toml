@@ -1,0 +1,20 @@
+format = """
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$lua\
+$nodejs\
+$line_break
+$character"""
+
+[fill]
+symbol = ' '
+
+[nodejs]
+symbol = ' '
+version_format = '${raw}'
+format = '[$symbol($version )]($style)'
+
+[git_branch]
+symbol = ' '
