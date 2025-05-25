@@ -17,6 +17,7 @@ alias gb='git branch'
 alias gf='git fetch'
 alias gcln='git config --local user.name "Antonio Felizzola"'
 alias gcle='git config --local user.email "antonio.qfel@gmail.com"'
+alias rs='--recurse-submodules'
 
 # Aliases Mac
 alias editzsh='vim /Users/antonio/.zprofile'
@@ -39,6 +40,7 @@ alias cpw='mvn install -e'
 
 # Aliases Utils
 alias aliases='bat ~/.zprofile | grep alias'
+alias myip='ifconfig | grep "inet " | grep -v 127.0.0.1'
 
 # Maven
 export M2_HOME="/Users/antonio/Maven/apache-maven-3.9.0"

@@ -16,5 +16,3 @@ symbol = ' '
 version_format = '${raw}'
 format = '[$symbol($version )]($style)'
 
-[git_branch]
-symbol = ' '
