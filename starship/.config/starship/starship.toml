@@ -11,8 +11,10 @@ $character"""
 [fill]
 symbol = ' '
 
+[git_branch]
+symbol = ' '
+
 [nodejs]
-symbol = ' '
+symbol = '󰎙 '
 version_format = '${raw}'
 format = '[$symbol($version )]($style)'
-

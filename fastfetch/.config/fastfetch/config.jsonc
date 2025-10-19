@@ -1,0 +1,38 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    // If working with tmux, you need to use kitty-icat instead of kitty-direct
+    // https://discord.com/channels/1005603569187160125/1324828708128821271/1327261766014599218
+    "type": "kitty",
+    // "type": "kitty-direct",
+    // "type": "kitty-icat",
+    // "source": "~/.config/fastfetch/images/star-saber-ship-linkarzu.png",
+    "source": "~/.config/fastfetch/images/ken.png",
+    "height": 15,
+    // "width": 30,
+    "position": "left",
+    "padding": {
+      "top": 0,
+      "right": 5
+    }
+  },
+  "display": {
+    "separator": " "
+  },
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "host",
+    "kernel",
+    "shell",
+    "wmtheme",
+    "font",
+    "cursor",
+    "terminal",
+    "terminalfont",
+    "cpu",
+    "gpu",
+    "memory"
+  ]
+}
