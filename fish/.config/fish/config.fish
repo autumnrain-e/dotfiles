@@ -2,9 +2,6 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-# Starship
-starship init fish | source
-
 # FNM
 set -Ua fish_user_paths /Users/antonio/.local/state/fnm_multishells/33465_1748210470789/bin
 fnm env --use-on-cd | source
@@ -58,6 +55,9 @@ alias ff='fastfetch'
 # Maven
 set -gx M2_HOME "/Users/antonio/Maven/apache-maven-3.9.0"
 set -gx PATH $M2_HOME/bin $PATH
+
+# Starship
+starship init fish | source
 
 # Zoxide
 zoxide init fish | source
