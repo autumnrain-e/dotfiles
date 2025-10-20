@@ -22,6 +22,7 @@ config.colors = {
 -- Appereance
 config.window_decorations = 'RESIZE'
 config.enable_tab_bar = false
+config.window_close_confirmation = 'NeverPrompt'
 
 config.color_scheme = 'Gruvbox dark, pale (base16)'
 
