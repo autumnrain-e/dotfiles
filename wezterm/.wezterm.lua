@@ -7,7 +7,7 @@ local config = wezterm.config_builder()
 -- Font Settings
 config.font_size = 15
 config.line_height = 1
-config.font = wezterm.font('JetBrainsMono Nerd Font Mono', { weight = 'Regular' })
+config.font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'Regular' })
 -- config.font = wezterm.font_with_fallback({
 --   { family = 'Berkeley Mono' },
 --   { family = 'Symbols Nerd Font Mono', scale = 0.9 },
