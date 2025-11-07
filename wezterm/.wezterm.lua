@@ -6,8 +6,8 @@ local config = wezterm.config_builder()
 
 -- Font Settings
 config.font_size = 15
-config.line_height = 1.1
-config.font = wezterm.font('CommitMono Nerd Font', { weight = 'Regular' })
+config.line_height = 1
+config.font = wezterm.font('FiraCode Nerd Font Mono', { weight = 'Regular' })
 -- config.font = wezterm.font_with_fallback({
 --   { family = 'Berkeley Mono' },
 --   { family = 'Symbols Nerd Font Mono', scale = 0.9 },
@@ -29,7 +29,7 @@ config.color_scheme = 'Gruvbox dark, pale (base16)'
 -- Key Bindings
 config.keys = {
   {
-    key = 'w', 
+    key = 'w',
     mods = 'CMD',
     action = wezterm.action.CloseCurrentPane { confirm = false },
   },
@@ -49,19 +49,19 @@ config.keys = {
     action = wezterm.action.SendString 'clear\n',
   },
   -- Navigate between panes with Ctrl+Shift+h/j/k/l
-  { 
+  {
     key = 'h',
     mods = 'CTRL',
     action = wezterm.action.ActivatePaneDirection 'Left' },
-  { 
+  {
     key = 'l',
     mods = 'CTRL',
     action = wezterm.action.ActivatePaneDirection 'Right' },
-  { 
+  {
     key = 'k',
     mods = 'CTRL',
     action = wezterm.action.ActivatePaneDirection 'Up' },
-  { 
+  {
     key = 'j',
     mods = 'CTRL',
     action = wezterm.action.ActivatePaneDirection 'Down' },

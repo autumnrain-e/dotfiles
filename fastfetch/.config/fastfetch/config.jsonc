@@ -7,9 +7,9 @@
     // "type": "kitty-direct",
     // "type": "kitty-icat",
     // "source": "~/.config/fastfetch/images/star-saber-ship-linkarzu.png",
-    "source": "~/.config/fastfetch/images/ken.png",
+    "source": "~/.config/fastfetch/images/hacker.png",
     "height": 15,
-    // "width": 30,
+    // "width": 15,
     "position": "left",
     "padding": {
       "top": 0,
@@ -33,6 +33,12 @@
     "terminalfont",
     "cpu",
     "gpu",
-    "memory"
+    "memory",
+    "break",
+    {
+      "type": "colors",
+      "paddingLeft": 2,
+      "symbol": "circle"
+    }
   ]
 }

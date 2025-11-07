@@ -22,7 +22,6 @@ alias rs='recurse-submodules'
 
 # Aliases Mac
 alias editzsh='vim /Users/antonio/.zprofile'
-alias oc='code .'
 
 # Aliases Node
 alias npmi='npm install'
@@ -50,7 +49,7 @@ alias docs='bportal && rportal'
 # Aliases Utils
 alias aliases='bat ~/.config/fish/config.fish | grep alias'
 alias myip='ifconfig | grep "inet " | grep -v 127.0.0.1'
-alias ff='fastfetch'
+alias ff='echo -e "\n" && fastfetch'
 
 # Maven
 set -gx M2_HOME "/Users/antonio/Maven/apache-maven-3.9.0"
