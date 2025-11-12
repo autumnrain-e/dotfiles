@@ -1,2 +1,3 @@
-require("antonio.core")
-require("antonio.lazy")
+require("config.lazy")
+require("config/options")
+require("config/keymaps")
