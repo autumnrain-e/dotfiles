@@ -3,8 +3,16 @@ return {
 	priority = 1000,
 	lazy = false,
 	opts = {
+		dashboard = { enabled = true }, -- LazyVim's default dashboard
 		explorer = { enabled = true },
-		picker = { enabled = true },
+		picker = {
+			enabled = true,
+			sources = {
+				explorer = {
+					hidden = true, -- Show hidden files by default
+				},
+			},
+		},
 	},
 	keys = {
 		-- Top Pickers & Explorer

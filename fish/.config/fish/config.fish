@@ -51,6 +51,9 @@ alias aliases='bat ~/.config/fish/config.fish | grep alias'
 alias myip='ifconfig | grep "inet " | grep -v 127.0.0.1'
 alias ff='echo -e "\n" && fastfetch'
 
+# Claude
+alias upclaude='brew upgrade claude-code'
+
 # Maven
 set -gx M2_HOME "/Users/antonio/Maven/apache-maven-3.9.0"
 set -gx PATH $M2_HOME/bin $PATH
