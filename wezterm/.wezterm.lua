@@ -5,7 +5,7 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 -- Font Settings
-config.font_size = 16
+config.font_size = 17
 config.line_height = 1
 -- config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
 config.font = wezterm.font_with_fallback({
