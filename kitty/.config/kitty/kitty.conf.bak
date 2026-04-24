@@ -1,0 +1,70 @@
+# ======================
+# Kitty Configuration
+# Matching WezTerm Look
+# ======================
+
+# Font Settings
+font_family      Berkeley Mono
+font_size        17.0
+adjust_line_height 1
+
+# Symbols/Nerdfonts support
+symbol_map U+23FB-U+23FE,U+2665,U+26A1,U+2B58,U+E000-U+E00A,U+E0A0-U+E0A3,U+E0B0-U+E0C8,U+E0CA,U+E0CC-U+E0D7,U+E200-U+E2A9,U+E300-U+E3E3,U+E5FA-U+E6AA,U+E700-U+E7C5,U+EA60-U+EBEB,U+F000-U+F2E0,U+F300-U+F32F,U+F400-U+F532,U+F500-U+FD46,U+F0001-U+F1AF0 Symbols Nerd Font Mono
+
+# Cursor Settings
+cursor_shape block
+cursor_blink_interval 500
+cursor_stop_blinking_after 15.0
+shell_integration enabled no-cursor
+
+# Cursor Animations
+mouse_hide_wait -5.0
+cursor_trail 3
+cursor_trail_decay 0.05 0.2
+cursor_trail_start_threshold 1
+
+# Window Settings
+hide_window_decorations titlebar-only
+window_padding_width 0 5
+draw_minimal_borders yes
+window_margin_width 0
+single_window_margin_width 0
+remember_window_size no
+initial_window_width 187c
+initial_window_height 65c
+confirm_os_window_close 0
+background_opacity 0.9
+background_blur 20
+
+# Tab Bar (hidden to match WezTerm)
+tab_bar_min_tabs 9999
+
+# Performance Settings
+repaint_delay 8
+input_delay 2
+sync_to_monitor yes
+
+# Key Bindings
+# Window management
+map cmd+w close_window
+map cmd+d launch --location=hsplit --cwd=current
+map cmd+shift+d launch --location=vsplit --cwd=current
+map cmd+k send_text all \x0c
+map cmd+t launch --type=tab --cwd=current
+
+# Window navigation (matching your CTRL bindings)
+map ctrl+h neighboring_window left
+map ctrl+l neighboring_window right
+map ctrl+k neighboring_window up
+map ctrl+j neighboring_window down
+
+# macOS specific settings
+# macos_titlebar_color background
+macos_option_as_alt yes
+macos_quit_when_last_window_closed yes
+
+
+# BEGIN_KITTY_THEME
+# Rosé Pine
+include current-theme.conf
+# END_KITTY_THEME

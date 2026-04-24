@@ -1,0 +1,29 @@
+format = """
+$directory\
+$git_branch\
+$git_status\
+$package
+$fill\
+$lua\
+$nodejs\
+$line_break
+$character"""
+
+[fill]
+symbol = ' '
+
+[git_branch]
+symbol = ' '
+
+[package]
+format = '[$version]($style) '
+
+[lua]
+symbol = '🌙 '
+version_format = 'v${raw}'
+format = '[$symbol($version )]($style)'
+
+[nodejs]
+symbol = '󰎙 '
+version_format = 'v${raw}'
+format = '[$symbol($version )]($style)'

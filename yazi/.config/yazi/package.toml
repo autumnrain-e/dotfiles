@@ -1,0 +1,7 @@
+[plugin]
+deps = []
+
+[[flavor.deps]]
+use = "Chromium-3-Oxide/everforest-medium"
+rev = "4eede31"
+hash = "2f79b3c6afefef9b1c269edd38b45fab"

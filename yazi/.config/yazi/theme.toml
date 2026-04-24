@@ -1,0 +1,14 @@
+[flavor]
+dark = "everforest-medium"
+light = "everforest-medium"
+
+[filetype]
+rules = [
+	{ url = "*/", fg = "#a7c080" },
+	{ name = "*/", fg = "#a7c080" },
+]
+
+[icon]
+prepend_conds = [
+	{ if = "dir", text = "", fg = "#a7c080" },
+]

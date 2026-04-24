@@ -1,0 +1,30 @@
+return {
+	"nvim-treesitter/nvim-treesitter",
+	opts = {
+		ensure_installed = {
+			"bash",
+			"css",
+			"dockerfile",
+			"fish",
+			"html",
+			"javascript",
+			"jsdoc",
+			"json",
+			"lua",
+			"markdown",
+			"markdown_inline",
+			"regex",
+			"sql",
+			"toml",
+			"tsx",
+			"typescript",
+			"vim",
+			"vimdoc",
+			"yaml",
+		},
+		auto_install = true,
+		highlight = {
+			enable = true,
+		},
+	},
+}
