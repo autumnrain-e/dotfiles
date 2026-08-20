@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+
+# SketchyBar — https://github.com/FelixKratz/SketchyBar
+# Entry point: read when `sketchybar` starts and on `sketchybar --reload`.
+# Theme: Gruvbox Material Dark Hard (matches kitty / nvim / yazi / borders).
+#
+# Launched by AeroSpace's after-startup-command (see aerospace.toml), so this
+# process inherits AeroSpace's minimal PATH — Homebrew is prepended below.
+# Every plugin invoked by sketchybar inherits this environment.
+
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+# sketchybar exports CONFIG_DIR to all scripts it runs; default it so this file
+# can also be sourced/run by hand.
+CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
+export CONFIG_DIR
+
+source "$CONFIG_DIR/colors.sh"
+source "$CONFIG_DIR/icons.sh"
+
+# Style names are family-specific and are matched EXACTLY by CoreText — a name
+# that matches no installed face falls back to Helvetica silently, with no error
+# and no hint in `sketchybar --query` (which echoes the requested string, not the
+# resolved font). Berkeley Mono here is the Condensed cut, so its faces are
+# "Condensed" / "Medium Condensed" / "Bold Condensed" — there is no plain "Bold".
+# Before changing FONT_TEXT, check the family's real style names:
+#   fc-list | grep -i <family>
+export FONT_TEXT="Helvetica"
+export FONT_TEXT_REGULAR="Regular"
+export FONT_TEXT_BOLD="Bold"
+
+# Theme default — Berkeley Mono (Condensed cut).
+# export FONT_TEXT="Berkeley Mono"
+# export FONT_TEXT_REGULAR="Condensed"
+# export FONT_TEXT_BOLD="Bold Condensed"
+
+# Fira Code trial — only FiraCode-Regular is installed, so its BOLD must stay
+# "Regular" or it falls back to Helvetica.
+# export FONT_TEXT="Fira Code"
+# export FONT_TEXT_REGULAR="Regular"
+# export FONT_TEXT_BOLD="Regular"
+
+export FONT_ICON="Symbols Nerd Font Mono"
+
+##### Custom events #####
+# Triggered by aerospace.toml's exec-on-workspace-change hook.
+sketchybar --add event aerospace_workspace_change
+
+##### Bar appearance #####
+sketchybar --bar \
+    height=39 \
+    position=top \
+    sticky=on \
+    padding_left=8 \
+    padding_right=8 \
+    color="$BAR_BG" \
+    border_width=0 \
+    shadow=off \
+    topmost=off
+
+# Floating variant — swap for the block above if you prefer a detached bar.
+# Raise gaps.outer.top in aerospace.toml to ~55 to match.
+# sketchybar --bar height=36 position=top sticky=on margin=8 y_offset=8 \
+#     corner_radius=9 color="$BAR_BG" border_width=2 border_color="$BG3" \
+#     padding_left=8 padding_right=8 shadow=off
+
+##### Defaults inherited by every item added after this #####
+sketchybar --default \
+    updates=when_shown \
+    icon.font="$FONT_ICON:Regular:16.0" \
+    icon.color="$FG" \
+    icon.padding_left=8 \
+    icon.padding_right=4 \
+    label.font="$FONT_TEXT:$FONT_TEXT_BOLD:13.0" \
+    label.color="$FG" \
+    label.padding_left=4 \
+    label.padding_right=8 \
+    background.corner_radius=6 \
+    background.height=26 \
+    background.drawing=off
+
+##### Items #####
+# Order matters: left items are added left-to-right, right items right-to-left.
+source "$CONFIG_DIR/items/spaces.sh"
+source "$CONFIG_DIR/items/front_app.sh"
+# THE ORDER OF THESE LINES IS THE LEFT-TO-RIGHT ORDER OF THE BAR, REVERSED.
+# Right items are added right-to-left, so each source line lands its cluster to
+# the LEFT of the previous one — clock first therefore means clock rightmost.
+# The reading order this produces is:
+#
+#   media | cpu | ram | wifi | volume | clock
+#
+# (media draws only while something is playing; battery is commented out inside
+# items/status.sh.) To move a chip, move its line here — that is the only place
+# the order is expressed. To revert a cluster to its old single-chip form, drop
+# its line and uncomment the matching block in items/status.sh.
+source "$CONFIG_DIR/items/clock.sh"
+source "$CONFIG_DIR/items/status.sh"
+source "$CONFIG_DIR/items/wifi.sh"
+source "$CONFIG_DIR/items/ram.sh"
+source "$CONFIG_DIR/items/cpu.sh"
+source "$CONFIG_DIR/items/media.sh"
+
+##### Finalize #####
+# Force a first paint, then seed the workspace highlight — the aerospace items
+# only run their script on the event, which has not fired yet at startup.
+sketchybar --update
+sketchybar --trigger aerospace_workspace_change \
+    FOCUSED_WORKSPACE="$(aerospace list-workspaces --focused 2>/dev/null)"

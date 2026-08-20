@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# JankyBorders — https://github.com/FelixKratz/JankyBorders
+# Read automatically when `borders` is started with no arguments.
+# Colors follow the Gruvbox Material palette (format: 0xAARRGGBB).
+
+options=(
+	style=round
+	width=5.0
+	hidpi=off
+	active_color=0xFFE78A4E   # gruvbox-material orange
+	inactive_color=0xFFDDC7A1 # gruvbox-material fg
+)
+
+borders "${options[@]}"

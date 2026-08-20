@@ -1,0 +1,9 @@
+secrets.fish
+.DS_Store
+*.bak
+*.bak.*
+
+# cliamp runtime state — regenerated on every launch / track played.
+# config.toml is the real config and stays tracked.
+cliamp/.config/cliamp/*.log
+cliamp/.config/cliamp/history.toml
