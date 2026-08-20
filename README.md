@@ -12,29 +12,40 @@ Personal macOS (Apple Silicon) dotfiles managed with [GNU Stow](https://www.gnu.
 | [Yazi](https://yazi-rs.github.io/) | Terminal file manager |
 | [Starship](https://starship.rs/) | Shell prompt |
 | [Fastfetch](https://github.com/fastfetch-cli/fastfetch) | System info display |
+| [AeroSpace](https://github.com/nikitabobko/AeroSpace) | Tiling window manager |
+| [SketchyBar](https://github.com/FelixKratz/SketchyBar) | Status bar |
+| [JankyBorders](https://github.com/FelixKratz/JankyBorders) | Window borders |
 | [WezTerm](https://wezfurlong.org/wezterm/) | Terminal emulator (secondary, config kept) |
 | [Zsh](https://www.zsh.org/) | Shell (secondary, mirrors Fish aliases) |
 
 ## Theme
 
-**Everforest Dark Hard** across all tools.
+**Gruvbox Material Dark Hard** on the active desktop. Everforest Dark Hard files are still in the repo but inactive.
 
-- **Kitty**: `Everforest Dark Hard.conf`
-- **Neovim**: [`neanias/everforest-nvim`](https://github.com/neanias/everforest-nvim), hard background, transparent
-- **Yazi**: `everforest-medium` flavor with custom icon and filetype color overrides
-- **Starship**: Inherits terminal colors
+- **Kitty**: `Gruvbox Material Dark Hard.conf`, included from `kitty.conf`. `Everforest Dark Hard.conf` is on disk, not included.
+- **Neovim**: [`sainnhe/gruvbox-material`](https://github.com/sainnhe/gruvbox-material), hard background, no italics, transparent. The Everforest spec stays on disk, lazy/inactive.
+- **Yazi**: `gruvbox-material` flavor. `everforest-medium` is installed but unused; the old directory-green overrides in `theme.toml` are commented out.
+- **SketchyBar**: Gruvbox Material palette in `colors.sh`. Accent matches the window-border orange (`#e78a4e`).
+- **JankyBorders**: active `#e78a4e` (gruvbox-material orange), inactive `#ddc7a1`.
+- **WezTerm** (secondary): built-in `Gruvbox Dark (Gogh)` — Gruvbox, not the Material variant.
+- **Starship**: inherits terminal colors.
 
-**Fonts**: [Berkeley Mono](https://berkeleygraphics.com/typefaces/berkeley-mono/) (primary) · Symbols Nerd Font Mono (icons) · 17pt in Kitty
+**Fonts**: [Berkeley Mono](https://berkeleygraphics.com/typefaces/berkeley-mono/) (the installed cut is **Condensed**: `Condensed` / `Medium Condensed` / `Bold Condensed`) · [Symbols Nerd Font Mono](https://www.nerdfonts.com/) (icons; required, not a system font) · 18pt in Kitty and WezTerm.
+
+SketchyBar is the one exception: its labels are Helvetica, not Berkeley Mono.
 
 ## Structure
 
 Each top-level directory is a Stow package that mirrors `$HOME`:
 
 ```
+aerospace/  →  ~/.config/aerospace/
+borders/    →  ~/.config/borders/
 fastfetch/  →  ~/.config/fastfetch/
 fish/       →  ~/.config/fish/
 kitty/      →  ~/.config/kitty/
 nvim/       →  ~/.config/nvim/
+sketchybar/ →  ~/.config/sketchybar/
 starship/   →  ~/.config/starship.toml
 wezterm/    →  ~/.wezterm.lua
 yazi/       →  ~/.config/yazi/
@@ -45,7 +56,7 @@ zsh/        →  ~/.zprofile, ~/.zshrc
 
 ```bash
 # Clone
-git clone https://github.com/antoniofelizzola/dotfiles ~/dotfiles
+git clone https://gitlab.com/autumnrain-e/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
 # Stow a package (creates symlinks in $HOME)
@@ -69,7 +80,7 @@ LazyVim-based setup. Plugin specs live in `nvim/.config/nvim/lua/plugins/` — o
 
 | Plugin | Purpose |
 |--------|---------|
-| `neanias/everforest-nvim` | Colorscheme |
+| `sainnhe/gruvbox-material` | Colorscheme |
 | `nvim-mini/mini.icons` | Theme-aware icons (replaces nvim-web-devicons) |
 | `stevearc/aerial.nvim` | Document outline / ToC (`<leader>cs`) |
 | `MeanderingProgrammer/render-markdown.nvim` | Rendered markdown in buffer |
@@ -117,9 +128,4 @@ cp fastfetch ~/.local/bin/fastfetch
 
 ## Yazi
 
-File manager with Everforest theming. The `theme.toml` applies the `everforest-medium` flavor and adds two overrides that the flavor itself is missing:
-
-- `[filetype]` rules — directory **name** color
-- `[icon] prepend_conds` — directory **icon** color (U+E5FF glyph, Everforest green `#a7c080`)
-
-Both overrides are required — they are independent in Yazi's theming system.
+File manager using the `gruvbox-material` flavor (same family as Neovim). The `everforest-medium` flavor remains on disk but is not selected. Directory-green `[filetype]` / `[icon]` overrides in `theme.toml` are commented out — gruvbox-material colors directories itself.
