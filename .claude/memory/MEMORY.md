@@ -20,10 +20,6 @@
 
 ## Decisions Log
 
-[2026-08-19] DECISION: Logo cycles `assets/doom/<N>_*/doom_guy_*.png` — 5s/frame, last frame of a folder holds 180s, then next folder, wrap after 4. `--reload` wipes `$TMPDIR/sketchybar_doom.state` → 0/0. Ghost/geometry unchanged; `doom.png` is revert-only.
-              REASON: HUD look-around, then a long pause, then the next damage set. One file per frame so the image cache swaps.
-              REJECTED: (1) Random every minute — first ask. (2) CPU-load faces — not requested. (3) Color-key only — beige halo; 1px erode cleared it. (4) Overwriting one `doom.png` — cache ignores the write.
-
 [2026-08-14] DECISION: `front_app.icon` glyph is 18pt (`APP_ICON_SIZE`); the 28px box and the bar-wide 16pt `--default` stay. Revert: drop the `icon.font` line.
               REASON: 16pt looked small in the accent square; 18pt fills it without clipping. Isolated override so workspace/ram/wifi/clock icons do not move.
               REJECTED: (1) Bumping `--default` `icon.font` to 18 — resizes every other chip. (2) Growing `APP_ICON_WIDTH` to match — breaks the square match with `SPACE_WIDTH`.
@@ -47,6 +43,19 @@
 ---
 
 ## Session History
+
+## Session — 2026-08-20 — Claude app icon
+### Worked On
+- SketchyBar front_app chip: Claude glyph.
+### Completed
+- `nf-cod-claude` U+EC82 for `"Claude"` | `"Claude Code"`; user confirmed live.
+### In Progress (with next step)
+- Carried: `config.fish.bak.*`; reboot-verify daemons; media.
+### Decisions Made
+- None — followed the existing `$INFO` map pattern.
+### Next Session Priorities
+1. Drop stray `config.fish.bak.*` before stow.
+2. Reboot-verify sketchybar + borders.
 
 ## Session — 2026-08-19 — Doom face cycle
 ### Worked On

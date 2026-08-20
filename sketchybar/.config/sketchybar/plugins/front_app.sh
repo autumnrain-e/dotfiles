@@ -32,6 +32,7 @@ case "$INFO" in
 "Emacs") icon="$ICON_APP_EMACS" ;;
 "Finder") icon="$ICON_APP_FINDER" ;;
 "Preview") icon="$ICON_APP_PREVIEW" ;;
+"Claude" | "Claude Code") icon="$ICON_APP_CLAUDE" ;;
 "Cisco Secure Client") icon="$ICON_APP_CISCO" ;;
 "Elmedia Player") icon="$ICON_APP_ELMEDIA" ;;
 "Microsoft Excel" | "Excel") icon="$ICON_APP_EXCEL" ;;

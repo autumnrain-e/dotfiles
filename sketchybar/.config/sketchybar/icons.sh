@@ -56,5 +56,6 @@ export ICON_APP_PREVIEW="󰈈"             # U+F0208 nf-md-eye
 export ICON_APP_CISCO=""               # U+F1E6  nf-fa-plug
 export ICON_APP_ELMEDIA=""             # U+F144  nf-fa-circle_play
 export ICON_APP_EXCEL="󱎏"              # U+F138F nf-md-microsoft_excel
+export ICON_APP_CLAUDE=""              # U+EC82  nf-cod-claude
 export ICON_APP_DEFAULT="󰘔"              # U+F0614 nf-md-application_outline (any unmapped app)
 # export ICON_APP_DEFAULT="󰣆"            # U+F08C6 nf-md-application (filled alt)

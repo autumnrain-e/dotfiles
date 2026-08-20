@@ -11,6 +11,12 @@ recorded a one-off change which has fully shipped. Archived decisions are stored
 
 ## Decisions Log — Archived
 
+*Relocated 2026-08-20 to stay under the 8,900-char ceiling. Fully shipped (user signed off 2026-08-19); cycle behaviour is in CLAUDE.md's Doom logo section. Verbatim.*
+
+[2026-08-19] DECISION: Logo cycles `assets/doom/<N>_*/doom_guy_*.png` — 5s/frame, last frame of a folder holds 180s, then next folder, wrap after 4. `--reload` wipes `$TMPDIR/sketchybar_doom.state` → 0/0. Ghost/geometry unchanged; `doom.png` is revert-only.
+              REASON: HUD look-around, then a long pause, then the next damage set. One file per frame so the image cache swaps.
+              REJECTED: (1) Random every minute — first ask. (2) CPU-load faces — not requested. (3) Color-key only — beige halo; 1px erode cleared it. (4) Overwriting one `doom.png` — cache ignores the write.
+
 *Relocated 2026-08-14 (late) to make room for the app-chip decision under the 8,900-char ceiling. Both are fully-shipped one-off chip changes, documented in CLAUDE.md's SketchyBar section; the structural fact behind the clock entry (a stacked chip REQUIRES a bracket, because items draw in add order) already survives as an invariant in `MEMORY-sketchybar.md`. Verbatim.*
 
 [2026-08-10] DECISION: SketchyBar left logo is `ICON_GHOST` (nf-md-ghost U+F02A0), not the previous coffee cup; workspace `SPACE_GAP=2` (4px visible between chips).
