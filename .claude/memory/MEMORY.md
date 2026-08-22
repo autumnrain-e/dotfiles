@@ -3,7 +3,9 @@
 ## Invariants & Gotchas
 
 - **SketchyBar invariants live in `.claude/memory/MEMORY-sketchybar.md`** — 17 lines on chip geometry, brackets, `width=0` stacking, graphs, plugin sampling and pixel verification, split off 2026-08-10 because they were 63% of this section. That file is NOT auto-loaded: read it before editing anything under `sketchybar/`.
-- kitty is a **manual install** (`curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin` = the `ku` alias), deliberately not the cask and deliberately absent from the Brewfile — so `brew bundle install` + `stow` leaves a fresh machine with `kitty.conf` and no terminal.
+- **Ghostty invariants live in `.claude/memory/MEMORY-ghostty.md`** — config-read-once-at-startup, the two config paths, the kitty→ghostty key translation traps, and the bundled-theme variants. Split off 2026-08-22 when the package landed. NOT auto-loaded: read it before editing anything under `ghostty/`.
+- kitty is a **manual install** (`curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin` = the `ku` alias), deliberately not the cask and deliberately absent from the Brewfile, so `brew bundle install` + `stow` leaves a fresh machine with `kitty.conf` and no kitty. Ghostty **is** in the Brewfile (2026-08-22), so a fresh machine does now get a terminal — just not that one.
+- `brew install --cask --adopt <app>` takes ownership of an already-installed app **in place** when the versions match — no uninstall, the running app untouched — and cannot be combined with `--force` (which deletes and reinstalls). It also links artifacts a manual install misses: adopting ghostty added its man pages and fish completions.
 - `brew bundle check` flags OUTDATED formulae with the same "needs to be installed or updated" line as missing ones, so its failure list is not an inventory of what the Brewfile is missing (79 outdated here on 2026-08-10). Check a single entry against `brew outdated`/`brew list` before believing it.
 - kitty has been granted macOS Accessibility access; anything launched from a kitty window inherits it.
 - AeroSpace `on-window-detected` rules never re-fire on an already-open window, so they cannot fix live runtime state (a float toggle, a stuck layout).
@@ -20,21 +22,13 @@
 
 ## Decisions Log
 
-[2026-08-14] DECISION: `front_app.icon` glyph is 18pt (`APP_ICON_SIZE`); the 28px box and the bar-wide 16pt `--default` stay. Revert: drop the `icon.font` line.
-              REASON: 16pt looked small in the accent square; 18pt fills it without clipping. Isolated override so workspace/ram/wifi/clock icons do not move.
-              REJECTED: (1) Bumping `--default` `icon.font` to 18 — resizes every other chip. (2) Growing `APP_ICON_WIDTH` to match — breaks the square match with `SPACE_WIDTH`.
+[2026-08-22] DECISION: `ghostty` is a new stow package ported from `kitty.conf`, carrying its own `themes/Gruvbox Material Dark Hard` instead of Ghostty's bundled Gruvbox Material Dark. kitty stays the documented default; ghostty is additive.
+              REASON: The bundled theme is the MEDIUM variant (`#282828`), and its palette 3 would break the accent orange shared with JankyBorders and SketchyBar. `~/.config/ghostty/themes/` is searched before app resources, so a local file wins on a similar name.
+              REJECTED: (1) `theme = Gruvbox Material Dark` — wrong variant, desyncs three tools. (2) Replacing the kitty package — kitty's conf is untouched and still default. (3) One theme file shared by both terminals — formats differ (`color3` vs `palette = 3=`).
 
-[2026-08-14] DECISION: Logo is the Doom face (`assets/doom.png`); ghost kept commented. Both ends of the workspace row use a `SPACE_EDGE=8` spacer plus the adjacent workspace's `SPACE_GAP=2` (visible 10px). Revert: uncomment the ghost (`padding_right=0`), drop the doom `--add`, KEEP `logo_separator`.
-              REASON: Pinned `width=35` swallows `padding_right`, so `LOGO_GAP` stopped pushing the row and doom-to-1 collapsed to 2px. A spacer matches `space_separator` on the app-chip side. Face is a 32px nearest-neighbour sprite at scale 0.75, centred with `image.padding_left=6`.
-              REJECTED: (1) Restoring `LOGO_GAP` on the item — dead under pinned width. (2) Putting the whole 10px on `space.1` `padding_left` — makes 1-to-2 asymmetric. (3) Uncommenting the ghost AND restoring `LOGO_GAP=10` — stacks on `logo_separator` and the left gap becomes 20px.
-
-[2026-08-14] DECISION: A plain `ram` chip — nf-cod-circuit_board glyph in AQUA + percent used, `vm_stat`-sampled — sits between the cpu and wifi clusters in its own `items/ram.sh`; `battery` is commented out in `items/status.sh`, not deleted.
-              REASON: Chip order is expressed ONLY by the `source` block in `sketchybarrc`, so ram needed its own file to be positionable. Percent used matches the cpu readout and is the narrowest label; AQUA is the one palette entry no other item claims. Battery's plugin is still correct on disk, so a comment is a one-line revert.
-              REJECTED: (1) `17.9G`/`17.9/32G` labels — wider chip. (2) nf-md-memory, -integrated_circuit_chip, -alpha_r_box — each tried live and rejected on sight (the last is filled where every neighbour is stroked); all kept as commented alts. (3) `memory_pressure` sampling — see the sketchybar invariant. (4) A bracket — this is a plain item, so its own padding spaces it.
-
-[2026-08-14] DECISION: The front_app chip is two-tone — per-app glyph (`$BG0`) in an `$ACCENT` box, 2px seam, app name on `$GROUP_BG` — built as two PLAIN items, keyed off `$INFO`.
-              REASON: A bracket is impossible here — it draws ONE box beneath its members and the point is two colors. Plain items make item padding the right spacing tool, so the whole seam sits on the icon half's `padding_right` and the constant equals the visible gap, not half of it. Accent ties the chip to the focused workspace and the logo.
-              REJECTED: (1) A powerline-arrow seam (the user's other reference) — sharp against corner_radius=6 everywhere else. (2) Fixed green, and per-app colors — the bar's left edge would change hue every app switch. (3) Name kept in `$ACCENT` — orange text beside an orange box kills the contrast.
+[2026-08-22] DECISION: `cask "ghostty"` is in the Brewfile as a bootstrap-only entry, reconciled with the already-installed 1.3.1 via `brew install --cask --adopt`.
+              REASON: Closes the fresh-machine gap kitty has on purpose. The cask is `auto_updates`, so `brew upgrade` skips it and Ghostty's own updater stays in charge — brew only bootstraps, and the Caskroom version going stale is expected.
+              REJECTED: (1) Leaving it out for symmetry with kitty — kitty's absence is forced by its curl-installer upstream, ghostty has a real cask. (2) `--force` — deletes and reinstalls a working app. (3) Uninstall-then-install — same, with downtime.
 
 [2026-08-10] DECISION: `gaps.outer.top` is per-monitor — `[{ monitor."built-in" = 17 }, 47]` — and the WM/bar lifecycle commands are aliases in both shells: `ascheck`/`asreload`/`asrestart`, `sbreload`/`sbrestart`.
               REASON: The two displays need different numbers for the same 47pt clearance (see the visible-frame invariant), so undocking the Dell used to mean hand-editing the value. One config now covers both, and `asreload` alone applies it — the aliases make that one word instead of a recalled kill/sleep/open chain.
@@ -43,6 +37,23 @@
 ---
 
 ## Session History
+
+## Session — 2026-08-22 — Ghostty package
+### Worked On
+- New `ghostty` stow package ported from `kitty.conf`; Homebrew cask adopt; SketchyBar ghost glyph.
+### Completed
+- `config.ghostty` + local `themes/Gruvbox Material Dark Hard`, stowed, `+validate-config` clean and every resolved value checked.
+- `brew install --cask --adopt ghostty` (1.3.1 in place, gained man pages + fish completions) and `cask "ghostty"` in the Brewfile.
+- `ICON_APP_GHOSTTY` U+EEFE + `"Ghostty"` branch in `plugins/front_app.sh`; verified on the live bar and by screenshot.
+### In Progress (with next step)
+- CLAUDE.md + README have no Ghostty section yet — write one next.
+- Carried: `config.fish.bak.*`; reboot-verify daemons; media.
+### Decisions Made
+- [2026-08-22] ghostty package with its own hard-variant theme file; [2026-08-22] Brewfile bootstrap-only cask via `--adopt`.
+### Next Session Priorities
+1. Document the `ghostty` package in CLAUDE.md + README.
+2. Decide GitKraken's glyph — U+F2AC resolves to `fa-snapchat_ghost`, now a visual twin of Ghostty's chip, and this font has no GitKraken glyph.
+3. Drop stray `config.fish.bak.*` before stow.
 
 ## Session — 2026-08-20 — Claude app icon
 ### Worked On
@@ -53,19 +64,6 @@
 - Carried: `config.fish.bak.*`; reboot-verify daemons; media.
 ### Decisions Made
 - None — followed the existing `$INFO` map pattern.
-### Next Session Priorities
-1. Drop stray `config.fish.bak.*` before stow.
-2. Reboot-verify sketchybar + borders.
-
-## Session — 2026-08-19 — Doom face cycle
-### Worked On
-- Cycling SketchyBar logo through 42 HUD faces.
-### Completed
-- Knock-out+1px-erode; `plugins/doom.sh` 5s/frame, 3min folder hold, reload → 0/0. User signed off after testing.
-### In Progress (with next step)
-- Carried: `config.fish.bak.*`; reboot-verify daemons; media.
-### Decisions Made
-- [2026-08-19] sequential HUD cycle; static `doom.png` is revert-only.
 ### Next Session Priorities
 1. Drop stray `config.fish.bak.*` before stow.
 2. Reboot-verify sketchybar + borders.

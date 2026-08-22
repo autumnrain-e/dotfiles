@@ -11,6 +11,24 @@ recorded a one-off change which has fully shipped. Archived decisions are stored
 
 ## Decisions Log — Archived
 
+*Relocated 2026-08-22 to make room for the Ghostty package decisions under the 8,900-char ceiling — MEMORY.md was at 8,577 chars with 215 to spare. All four are fully-shipped one-off SketchyBar chip changes, documented in CLAUDE.md's SketchyBar section, and their durable structural facts already survive as invariants in `MEMORY-sketchybar.md` (bracket-vs-plain-items for a two-tone chip, pinned width swallowing padding, `vm_stat` over `memory_pressure`). Verbatim.*
+
+[2026-08-14] DECISION: `front_app.icon` glyph is 18pt (`APP_ICON_SIZE`); the 28px box and the bar-wide 16pt `--default` stay. Revert: drop the `icon.font` line.
+              REASON: 16pt looked small in the accent square; 18pt fills it without clipping. Isolated override so workspace/ram/wifi/clock icons do not move.
+              REJECTED: (1) Bumping `--default` `icon.font` to 18 — resizes every other chip. (2) Growing `APP_ICON_WIDTH` to match — breaks the square match with `SPACE_WIDTH`.
+
+[2026-08-14] DECISION: Logo is the Doom face (`assets/doom.png`); ghost kept commented. Both ends of the workspace row use a `SPACE_EDGE=8` spacer plus the adjacent workspace's `SPACE_GAP=2` (visible 10px). Revert: uncomment the ghost (`padding_right=0`), drop the doom `--add`, KEEP `logo_separator`.
+              REASON: Pinned `width=35` swallows `padding_right`, so `LOGO_GAP` stopped pushing the row and doom-to-1 collapsed to 2px. A spacer matches `space_separator` on the app-chip side. Face is a 32px nearest-neighbour sprite at scale 0.75, centred with `image.padding_left=6`.
+              REJECTED: (1) Restoring `LOGO_GAP` on the item — dead under pinned width. (2) Putting the whole 10px on `space.1` `padding_left` — makes 1-to-2 asymmetric. (3) Uncommenting the ghost AND restoring `LOGO_GAP=10` — stacks on `logo_separator` and the left gap becomes 20px.
+
+[2026-08-14] DECISION: A plain `ram` chip — nf-cod-circuit_board glyph in AQUA + percent used, `vm_stat`-sampled — sits between the cpu and wifi clusters in its own `items/ram.sh`; `battery` is commented out in `items/status.sh`, not deleted.
+              REASON: Chip order is expressed ONLY by the `source` block in `sketchybarrc`, so ram needed its own file to be positionable. Percent used matches the cpu readout and is the narrowest label; AQUA is the one palette entry no other item claims. Battery's plugin is still correct on disk, so a comment is a one-line revert.
+              REJECTED: (1) `17.9G`/`17.9/32G` labels — wider chip. (2) nf-md-memory, -integrated_circuit_chip, -alpha_r_box — each tried live and rejected on sight (the last is filled where every neighbour is stroked); all kept as commented alts. (3) `memory_pressure` sampling — see the sketchybar invariant. (4) A bracket — this is a plain item, so its own padding spaces it.
+
+[2026-08-14] DECISION: The front_app chip is two-tone — per-app glyph (`$BG0`) in an `$ACCENT` box, 2px seam, app name on `$GROUP_BG` — built as two PLAIN items, keyed off `$INFO`.
+              REASON: A bracket is impossible here — it draws ONE box beneath its members and the point is two colors. Plain items make item padding the right spacing tool, so the whole seam sits on the icon half's `padding_right` and the constant equals the visible gap, not half of it. Accent ties the chip to the focused workspace and the logo.
+              REJECTED: (1) A powerline-arrow seam (the user's other reference) — sharp against corner_radius=6 everywhere else. (2) Fixed green, and per-app colors — the bar's left edge would change hue every app switch. (3) Name kept in `$ACCENT` — orange text beside an orange box kills the contrast.
+
 *Relocated 2026-08-20 to stay under the 8,900-char ceiling. Fully shipped (user signed off 2026-08-19); cycle behaviour is in CLAUDE.md's Doom logo section. Verbatim.*
 
 [2026-08-19] DECISION: Logo cycles `assets/doom/<N>_*/doom_guy_*.png` — 5s/frame, last frame of a folder holds 180s, then next folder, wrap after 4. `--reload` wipes `$TMPDIR/sketchybar_doom.state` → 0/0. Ghost/geometry unchanged; `doom.png` is revert-only.
@@ -151,6 +169,22 @@ invariants in the active file. Verbatim.*
 ---
 
 ## Session History — Archived
+
+*Aged out 2026-08-22 by the size ceiling, not the 4-block cap, to make room for the Ghostty
+session. Verbatim.*
+
+## Session — 2026-08-19 — Doom face cycle
+### Worked On
+- Cycling SketchyBar logo through 42 HUD faces.
+### Completed
+- Knock-out+1px-erode; `plugins/doom.sh` 5s/frame, 3min folder hold, reload → 0/0. User signed off after testing.
+### In Progress (with next step)
+- Carried: `config.fish.bak.*`; reboot-verify daemons; media.
+### Decisions Made
+- [2026-08-19] sequential HUD cycle; static `doom.png` is revert-only.
+### Next Session Priorities
+1. Drop stray `config.fish.bak.*` before stow.
+2. Reboot-verify sketchybar + borders.
 
 *Aged out 2026-08-19: not by the 4-block cap but by the size ceiling after the
 doom-cycle write. Verbatim.*
