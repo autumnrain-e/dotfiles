@@ -36,5 +36,11 @@ brew "yazi"
 brew "zoxide"
 cask "copilot-cli"
 # Glyphs-only Nerd Font: supplies "Symbols Nerd Font Mono", used by SketchyBar's
-# icons and by kitty.conf's symbol_map fallback.
+# icons and by kitty.conf's symbol_map fallback, and by the ghostty config's
+# font-codepoint-map.
 cask "font-symbols-only-nerd-font"
+# Bootstrap only: the cask is marked auto_updates because Ghostty updates itself,
+# so `brew upgrade` skips it (unless --greedy) and the Caskroom version goes stale
+# by design. Here so a fresh machine gets the terminal that `stow ghostty` configs
+# — unlike kitty, which stays out of this file on purpose (curl installer, `ku`).
+cask "ghostty"

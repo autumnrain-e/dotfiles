@@ -1,0 +1,170 @@
+# ==============================================================================
+# Ghostty Configuration
+# Ported from kitty/.config/kitty/kitty.conf — keep the two in sync.
+# ==============================================================================
+#
+# Syntax notes (Ghostty is NOT kitty's format):
+#   - every setting is `key = value`; kitty's space-separated form is invalid
+#   - keys are hyphenated, not underscored
+#   - a key listed more than once takes the LAST value, except for `keybind`,
+#     `font-codepoint-map` and `palette`, which accumulate
+#   - reload a running instance with cmd+shift+, (no restart needed)
+#   - `ghostty +validate-config` checks this file without launching
+#   - full reference: `ghostty +show-config --default --docs` or
+#     https://ghostty.org/docs/config/reference
+#
+# Anything kitty could do that Ghostty cannot is called out in a "no equivalent"
+# comment rather than dropped silently — see the end of each section.
+
+
+# ------------------------------------------------------------------------------
+# Theme
+# ------------------------------------------------------------------------------
+# Resolves to themes/Gruvbox Material Dark Hard in this same directory. Ghostty
+# searches ~/.config/ghostty/themes/ BEFORE its built-in themes, so the local file
+# wins even though the shipped set has similar names.
+#
+# Do not switch this to the built-in "Gruvbox Material Dark" — that is the medium
+# variant (#282828 background), not the hard one the rest of the setup uses.
+#
+# Everforest revert: `theme = Everforest Dark Hard` — no file needed, Ghostty ships
+# it. (Note the kitty package's "Everforest Dark Hard.conf" was overwritten by
+# kitty's theme picker and now holds the Gruvbox palette despite its name; Ghostty's
+# shipped copy is the real Everforest.)
+theme = Gruvbox Material Dark Hard
+
+# Fully opaque, matching kitty. Uncomment both for the translucent look.
+# background-opacity = 0.9
+# background-blur = 18
+
+
+# ------------------------------------------------------------------------------
+# Font
+# ------------------------------------------------------------------------------
+# The installed cut is Berkeley Mono *Condensed* — the family name is still
+# "Berkeley Mono" and its faces are Condensed / Medium Condensed / Bold Condensed.
+# There is no plain "Bold", so bold is named explicitly below; CoreText matches
+# style names exactly and silently falls back when one does not exist.
+# Verify faces with `ghostty +list-fonts --family="Berkeley Mono"`.
+font-family = Berkeley Mono
+font-style = Condensed
+font-style-bold = Bold Condensed
+font-size = 18
+
+# Nerd Font glyph ranges, from kitty's `symbol_map`. Berkeley Mono has no Private
+# Use Area coverage, so without this every icon renders as a tofu box — and the
+# fallback is silent, with no error. "Symbols Nerd Font Mono" is not a system font:
+# `brew install --cask font-symbols-only-nerd-font` (already in the Brewfile).
+#
+# Ghostty inverts kitty's argument order: `<ranges>=<family>`, not
+# `<ranges> <family>`. The comma-separated list must stay on one line.
+font-codepoint-map = U+23FB-U+23FE,U+2665,U+26A1,U+2B58,U+E000-U+E00A,U+E0A0-U+E0A3,U+E0B0-U+E0C8,U+E0CA,U+E0CC-U+E0D7,U+E200-U+E2A9,U+E300-U+E3E3,U+E5FA-U+E6AA,U+E700-U+E7C5,U+EA60-U+EBEB,U+F000-U+F2E0,U+F300-U+F32F,U+F400-U+F532,U+F500-U+FD46,U+F0001-U+F1AF0=Symbols Nerd Font Mono
+
+# kitty's `adjust_line_height 100%` meant "the font's natural height", i.e. no
+# change. Ghostty's adjust-cell-height is a DELTA from natural height, so the
+# equivalent is to leave it unset. Add `adjust-cell-height = 10%` to loosen lines.
+
+
+# ------------------------------------------------------------------------------
+# Cursor
+# ------------------------------------------------------------------------------
+cursor-style = block
+cursor-style-blink = true
+
+# kitty's `shell_integration enabled no-cursor`. Ghostty splits this in two: the
+# integration itself stays on (detect = pick from $SHELL, which is fish here), and
+# the feature list opts out of shell-driven cursor shape so `cursor-style` above
+# is not overridden mid-session.
+#
+# Features MERGE with the defaults rather than replacing them — verified with
+# `ghostty +show-config`, which reports no-sudo/no-ssh-env/no-ssh-terminfo still
+# set despite only `no-cursor` being listed here. So name only what you want to
+# flip; `no-<feature>` turns one off, a bare `<feature>` turns it back on.
+shell-integration = detect
+shell-integration-features = no-cursor
+
+# kitty's `mouse_hide_wait -5.0` — negative meant "hide on keypress, not on a
+# timer". Ghostty has the boolean but no timeout knob.
+mouse-hide-while-typing = true
+
+# NO EQUIVALENT in Ghostty:
+#   cursor_blink_interval 500        — blink rate follows the macOS system rate
+#   cursor_stop_blinking_after 15.0  — blinking never auto-stops
+#   cursor_trail 3                   — Ghostty has no cursor-trail animation at all
+#   cursor_trail_decay 0.05 0.2
+#   cursor_trail_start_threshold 1
+# The trail is the one visible feature lost in this port.
+
+
+# ------------------------------------------------------------------------------
+# Window
+# ------------------------------------------------------------------------------
+# kitty's `hide_window_decorations titlebar-only`: keep the window frame, drop the
+# title bar. Ghostty needs the decoration ON for that, with the titlebar hidden.
+# Other macos-titlebar-style values: transparent (default), native, tabs.
+window-decoration = auto
+macos-titlebar-style = hidden
+
+# kitty's `window_padding_width 0 5` — its two-value form is "vertical horizontal",
+# so y=0 and x=5, NOT the other way round.
+window-padding-x = 5
+window-padding-y = 0
+
+# Initial size in CELLS (Ghostty's default unit here), same 187x65 as kitty.
+# `window-save-state = never` is kitty's `remember_window_size no`: without it
+# macOS restores the last window geometry and these two are ignored on relaunch.
+window-width = 187
+window-height = 65
+window-save-state = never
+
+# Tab bar hidden, matching kitty's `tab_bar_min_tabs 9999` hack. Ghostty has a real
+# setting for it; cmd+t still works, the tabs are just invisible, so use `never`
+# only if you navigate tabs by keyboard. `auto` shows the bar at 2+ tabs.
+window-show-tab-bar = never
+
+# kitty's `confirm_os_window_close 0` and `macos_quit_when_last_window_closed yes`.
+confirm-close-surface = false
+quit-after-last-window-closed = true
+
+# Left AND right option send Alt, matching kitty's `macos_option_as_alt yes`.
+# Accepts true / false / left / right.
+macos-option-as-alt = true
+
+# kitty's `sync_to_monitor yes`. Also Ghostty's default, stated for parity.
+window-vsync = true
+
+# NO EQUIVALENT in Ghostty:
+#   draw_minimal_borders yes    — split gutters are not tunable; the closest knobs
+#                                 are `split-divider-color` and
+#                                 `unfocused-split-opacity`
+#   window_margin_width 0       — Ghostty has only the padding above
+#   single_window_margin_width 0
+#   repaint_delay 8             — no manual frame pacing; window-vsync covers it
+#   input_delay 2
+#   enabled_layouts splits      — Ghostty has no layout concept, splits are native
+
+
+# ------------------------------------------------------------------------------
+# Keybindings
+# ------------------------------------------------------------------------------
+# Ghostty writes cmd as `super`. Everything kitty mapped by hand is ALREADY a
+# Ghostty default, so only the ctrl+hjkl split navigation is declared below:
+#
+#   cmd+w         close_surface   (kitty: close_window)
+#   cmd+d         new_split:right (kitty: launch --location=vsplit)
+#   cmd+shift+d   new_split:down  (kitty: launch --location=hsplit)
+#   cmd+t         new_tab
+#   cmd+k         clear_screen    (kitty faked this with send_text \x0c)
+#
+# `--cwd=current` is also unnecessary — split-inherit-working-directory and
+# tab-inherit-working-directory both default to true. Inspect the full default set
+# with `ghostty +list-keybinds --default`.
+#
+# Vim-style split navigation, matching kitty's neighboring_window bindings and the
+# hjkl convention used in WezTerm and AeroSpace. These shadow the terminal's own
+# ctrl+h (backspace), ctrl+j (line feed), ctrl+k (readline kill-line) and ctrl+l
+# (clear) — same trade-off as in kitty. Swap to super+ctrl+... to hand them back.
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+l=goto_split:right
+keybind = ctrl+k=goto_split:up
+keybind = ctrl+j=goto_split:down
