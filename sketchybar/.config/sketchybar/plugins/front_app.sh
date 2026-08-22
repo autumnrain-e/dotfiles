@@ -22,6 +22,7 @@ source "$CONFIG_DIR/icons.sh"
 
 case "$INFO" in
 "kitty") icon="$ICON_APP_KITTY" ;;
+"Ghostty") icon="$ICON_APP_GHOSTTY" ;;
 "Helium") icon="$ICON_APP_HELIUM" ;;
 "GitKraken") icon="$ICON_APP_GITKRAKEN" ;;
 "Docker Desktop" | "Docker") icon="$ICON_APP_DOCKER" ;;

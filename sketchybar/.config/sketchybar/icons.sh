@@ -43,6 +43,7 @@ export ICON_MUSIC=""              # U+F001 nf-fa-music
 # CFBundleName is only "Chrome". Read the name an app actually reports with:
 #   sketchybar --query front_app.name | jq -r .label.value
 export ICON_APP_KITTY="󰄛"                # U+F011B nf-md-cat
+export ICON_APP_GHOSTTY=""              # U+EEFE  nf-fa-ghost
 export ICON_APP_HELIUM="󰜗"               # U+F0717 nf-md-snowflake
 export ICON_APP_GITKRAKEN=""             # U+F2AC  nf-fa-gitkraken
 export ICON_APP_DOCKER=""                # U+F21F  nf-fa-docker
