@@ -166,12 +166,33 @@ invariants in the active file. Verbatim.*
               REASON: The SSID spent the chip's entire width on a string that changes twice a day, and resolving it costs a `scutil` + python3 fallback — so `plugins/wifi_ssid.sh` now runs from `click_script` only, not every 2s. Throughput is the thing actually worth a glance.
               REJECTED: (1) Arrow glyphs instead of dots — pre-wired in `icons.sh` as `ICON_UPLOAD`/`ICON_DOWNLOAD`, dots preferred on looks. (2) Keeping the SSID as the label. (3) Every padding route for the gaps — all measured as no-ops on a bracket.
 
+*Relocated 2026-08-24 to make room under the 8,900-char ceiling (MEMORY.md was at 10,202). Fully shipped: the aliases are documented in CLAUDE.md's Shell section and the per-monitor gaps arithmetic survives verbatim as two invariants in the active file. Verbatim.*
+
+[2026-08-10] DECISION: `gaps.outer.top` is per-monitor — `[{ monitor."built-in" = 17 }, 47]` — and the WM/bar lifecycle commands are aliases in both shells: `ascheck`/`asreload`/`asrestart`, `sbreload`/`sbrestart`.
+              REASON: The two displays need different numbers for the same 47pt clearance (see the visible-frame invariant), so undocking the Dell used to mean hand-editing the value. One config now covers both, and `asreload` alone applies it — the aliases make that one word instead of a recalled kill/sleep/open chain.
+              REJECTED: (1) A single constant edited per screen — exactly what produced the oversized laptop gap. (2) `brew services` for sketchybar/borders — AeroSpace stays the single lifecycle owner. (3) Reaching for `asrestart` after a gaps edit; `asreload` suffices and leaves the daemons alone.
+
 ---
 
 ## Session History — Archived
 
 *Aged out 2026-08-22 by the size ceiling, not the 4-block cap, to make room for the Ghostty
 session. Verbatim.*
+
+*Aged out 2026-08-24 by the size ceiling, not the 4-block cap, to make room for the doom-removal session. Verbatim.*
+
+## Session — 2026-08-20 — Claude app icon
+### Worked On
+- SketchyBar front_app chip: Claude glyph.
+### Completed
+- `nf-cod-claude` U+EC82 for `"Claude"` | `"Claude Code"`; user confirmed live.
+### In Progress (with next step)
+- Carried: `config.fish.bak.*`; reboot-verify daemons; media.
+### Decisions Made
+- None — followed the existing `$INFO` map pattern.
+### Next Session Priorities
+1. Drop stray `config.fish.bak.*` before stow.
+2. Reboot-verify sketchybar + borders.
 
 ## Session — 2026-08-19 — Doom face cycle
 ### Worked On

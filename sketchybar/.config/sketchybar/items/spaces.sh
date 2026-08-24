@@ -18,9 +18,10 @@ SPACE_GAP=2
 
 # Empty item on each end of the workspace row. Together with the adjacent
 # workspace's SPACE_GAP this is the visible gap: 8+2=10, same on the logo
-# side and the app-chip side. A spacer is required on the logo side because
-# the pinned width=35 swallows the item's own padding_right (the ghost
-# never hit this — its width was dynamic, so LOGO_GAP used to work).
+# side and the app-chip side. The logo's own padding_right could carry that
+# gap now that its width is dynamic again, but the spacer stays: it keeps
+# both ends of the row expressed the same way, and a future pinned-width
+# logo would swallow its own padding_right (as the doom chip's width=35 did).
 SPACE_EDGE=8
 
 # Fixed chip width. Digit glyphs do not all advance the same amount here (a "1"
@@ -30,48 +31,30 @@ SPACE_EDGE=8
 # ever named something wider than one character.
 SPACE_WIDTH=28
 
-# Ghost glyph — kept for revert. Uncomment this block, comment out the
-# doom `--add` below, KEEP logo_separator. padding_right must stay 0:
-# restoring the old LOGO_GAP=10 stacks on SPACE_EDGE and the left gap
-# becomes 20px. 0 + SPACE_EDGE + SPACE_GAP = 10, matching the app-chip end.
-# sketchybar --add item logo left \
-#     --set logo \
-#     padding_right=0 \
-#     icon="$ICON_GHOST" \
-#     icon.color="$YELLOW" \
-#     icon.padding_left=10 \
-#     icon.padding_right=10 \
-#     label.drawing=off \
-#     background.color="$GROUP_BG" \
-#     background.corner_radius=6 \
-#     background.height=26 \
-#     background.drawing=on \
-#     click_script="open -a 'System Settings'"
-
-# Doom face cycle. Same GROUP_BG / 35pt chip as the ghost; each frame is a
-# 32px nearest-neighbour sprite at scale 0.75 = 24pt, with 6pt left pad so
-# it sits centred in the box instead of hugging the left edge.
-# Assets: $CONFIG_DIR/assets/doom/<N>_<label>/doom_guy_*.png (prepared by
-# scripts/prepare-doom-faces.py). plugins/doom.sh walks folder 0's frames
-# every 5s, holds the last one for 3 minutes, then folder 1, wrapping after 4.
-# Wiping the state file here is what makes --reload restart at folder 0 frame 0.
-# Static revert: drop the script/update_freq lines and point background.image
-# at assets/doom.png (the old single face; source is doom-src.png).
-rm -f "${TMPDIR:-/tmp}/sketchybar_doom.state"
+# Logo chip: a single static Nerd Font glyph ($ICON_LOGO, nf-md-coffee), no
+# script and no timer. This replaced the doom face-cycle animation (plugin,
+# sprite assets and prep script all deleted 2026-08-24); icons.sh keeps the
+# pom-away and ghost glyphs commented below ICON_LOGO to swap back to.
+#
+# Width is deliberately dynamic — one fixed glyph never re-measures, so there
+# is nothing to pin against, and a pinned width would swallow this item's own
+# padding_right (which is why the doom chip needed logo_separator). The 10pt
+# icon padding is inside the background box and just sizes the chip.
+#
+# padding_right must stay 0: it stacks on SPACE_EDGE, so the left gap would
+# otherwise be 20px. 0 + SPACE_EDGE + SPACE_GAP = 10, matching the app-chip
+# end of the row. Chip geometry (corner_radius, height) comes from the
+# --default block in sketchybarrc — never re-specify it per item.
 sketchybar --add item logo left \
     --set logo \
     padding_right=0 \
-    icon.drawing=off \
+    icon="$ICON_LOGO" \
+    icon.color="$YELLOW" \
+    icon.padding_left=10 \
+    icon.padding_right=10 \
     label.drawing=off \
-    width=35 \
     background.color="$GROUP_BG" \
     background.drawing=on \
-    background.image="$CONFIG_DIR/assets/doom/0_full_health/doom_guy_0.png" \
-    background.image.drawing=on \
-    background.image.scale=0.75 \
-    background.image.padding_left=6 \
-    update_freq=5 \
-    script="$CONFIG_DIR/plugins/doom.sh" \
     click_script="open -a 'System Settings'"
 
 # Same construction as space_separator at the other end of the row.

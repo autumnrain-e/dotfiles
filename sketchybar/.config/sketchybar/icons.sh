@@ -7,9 +7,11 @@
 # Some editors/tools silently drop them on save. If an icon vanishes, regenerate
 # this file with Python using \uXXXX escapes instead of pasting glyphs, and
 # verify the bytes survived:
-#   bash -c 'source icons.sh; printf %s "$ICON_GHOST"' | hexdump -C
+#   bash -c 'source icons.sh; printf %s "$ICON_LOGO"' | hexdump -C
 
-export ICON_GHOST="󰊠"             # U+F02A0 nf-md-ghost
+export ICON_LOGO="󰅶"               # U+F0176 nf-md-coffee
+# export ICON_LOGO=""             # U+E007  nf-pom-away (alt)
+# export ICON_LOGO="󰊠"             # U+F02A0 nf-md-ghost (alt, the original logo glyph)
 export ICON_CPU=""                # U+F4BC nf-oct-cpu
 export ICON_RAM=""                # U+EABE nf-cod-circuit_board
 # export ICON_RAM="󰬙"             # U+F0B19 nf-md-alpha_r_box (alt)
