@@ -50,8 +50,8 @@ The whole point of standardizing is deciding once. Every repo converges to the s
    the threshold is the harness's, not ours.
 6. **Decisions Log is append-only in substance, but not unbounded in the hot path.** Never
    rewrite what was decided or why. When an entry is **superseded**, or records a one-off change
-   that has **fully shipped**, relocate it **verbatim** to `MEMORY_archive.md` in the same edit
-   that supersedes it. Archiving is routine hygiene, not a rescue operation.
+   that has **fully shipped**, relocate it **verbatim** to `.claude/memory/MEMORY_archive.md`
+   in the same edit that supersedes it. Archiving is routine hygiene, not a rescue operation.
 7. **Durable facts live in `## Invariants & Gotchas`, not in the Decisions Log.** A decision has
    alternatives and can be superseded; an invariant is just permanently true ("pnpm 10+ ignores
    `package.json` `pnpm.overrides`"). Invariants are one line each, never archived, and stay
@@ -257,9 +257,9 @@ Applies to `.claude/memory/MEMORY.md`.
 
 - **Decisions Log — substance kept forever, bulk is not.** Never rewrite what was decided or
   why. But when you supersede an entry, or an entry records a one-off change that has fully
-  shipped, relocate it **verbatim** to `MEMORY_archive.md` in the SAME edit — under a
-  `## Decisions Log — Archived` heading, noting when and why it moved. Superseded text left in
-  the active log is pure cost: read every session, never actionable.
+  shipped, relocate it **verbatim** to `.claude/memory/MEMORY_archive.md` in the SAME edit —
+  under a `## Decisions Log — Archived` heading, noting when and why it moved. Superseded text
+  left in the active log is pure cost: read every session, never actionable.
 - **Invariants & Gotchas — never archived, but they do NOT stay cheap.** The "one-liners are
   self-limiting" premise failed in practice: ~75 invariants averaging ~330 B are structurally
   ~23 KB — 2.6× the entire budget on their own. When invariants alone approach the ceiling, the
@@ -366,9 +366,9 @@ Applies to `.claude/memory/MEMORY.md` and any submodule `MEMORY.md` (each manage
 
 - **Decisions Log — substance kept forever, bulk is not.** Never rewrite what was decided or
   why. But when you supersede an entry, or an entry records a one-off change that has fully
-  shipped, relocate it **verbatim** to `MEMORY_archive.md` in the SAME edit — under a
-  `## Decisions Log — Archived` heading, noting when and why it moved. Superseded text left in
-  the active log is pure cost: read every session, never actionable.
+  shipped, relocate it **verbatim** to `.claude/memory/MEMORY_archive.md` in the SAME edit —
+  under a `## Decisions Log — Archived` heading, noting when and why it moved. Superseded text
+  left in the active log is pure cost: read every session, never actionable.
 - **Invariants & Gotchas — never archived, but they do NOT stay cheap.** The "one-liners are
   self-limiting" premise failed in practice: ~75 invariants averaging ~330 B are structurally
   ~23 KB — 2.6× the entire budget on their own. When invariants alone approach the ceiling, the
