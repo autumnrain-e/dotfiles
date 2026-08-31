@@ -114,13 +114,15 @@ source "$CONFIG_DIR/items/front_app.sh"
 # the LEFT of the previous one — clock first therefore means clock rightmost.
 # Pipes sit between sections, producing:
 #
-#   media | cpu | ram | clock
+#   media | cpu | ram | weather | clock
 #
 # (media draws only while something is playing, and hides its leading pipe with
 # it; wifi and volume are unhooked — their item files and plugins stay on disk.)
 # To move a section, move its source line AND the separator that follows it.
 source "$CONFIG_DIR/items/clock.sh"
 add_right_separator sep.clock
+source "$CONFIG_DIR/items/weather.sh"
+add_right_separator sep.weather
 source "$CONFIG_DIR/items/ram.sh"
 add_right_separator sep.ram
 source "$CONFIG_DIR/items/cpu.sh"

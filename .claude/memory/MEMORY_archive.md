@@ -11,6 +11,12 @@ recorded a one-off change which has fully shipped. Archived decisions are stored
 
 ## Decisions Log — Archived
 
+*Relocated 2026-08-31 — fully shipped (coffee logo is live; git is the revert path) to make room for the weather-chip decision under the 8,900-char ceiling. Verbatim.*
+
+[2026-08-24] DECISION: The doom face cycle is deleted outright — `plugins/doom.sh`, the whole `assets/` tree (27 sprites + `doom.png`/`doom-src.png`), `scripts/prepare-doom-faces.py` — and the logo chip is one static glyph again: `nf-md-coffee` U+F0176 in `$YELLOW`, dynamic width, no timer. Supersedes [2026-08-14] and [2026-08-19] (already archived).
+              REASON: User asked for a single icon again, so nothing consumes the plugin or sprites; keeping them as a revert path leaves 27 binaries and a 5s-tick plugin for a dead feature. Git history is the revert path, and the unprocessed HUD frames were never committed (`~/Downloads/doom_faces`).
+              REJECTED: (1) Unhook the script, keep the sprites — dead weight, same re-add cost. (2) Static `assets/doom.png` — still an image chip, not a glyph. (3) `nf-pom-away` U+E007, built and shown first, rejected on looks.
+
 *Relocated 2026-08-22 to make room for the Ghostty package decisions under the 8,900-char ceiling — MEMORY.md was at 8,577 chars with 215 to spare. All four are fully-shipped one-off SketchyBar chip changes, documented in CLAUDE.md's SketchyBar section, and their durable structural facts already survive as invariants in `MEMORY-sketchybar.md` (bracket-vs-plain-items for a two-tone chip, pinned width swallowing padding, `vm_stat` over `memory_pressure`). Verbatim.*
 
 [2026-08-14] DECISION: `front_app.icon` glyph is 18pt (`APP_ICON_SIZE`); the 28px box and the bar-wide 16pt `--default` stay. Revert: drop the `icon.font` line.

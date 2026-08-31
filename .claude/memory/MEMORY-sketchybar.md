@@ -37,6 +37,8 @@ SketchyBar section, not here. This file is only the traps.
 
 - BAR_BG is BG1 at 70% (`0xb3282828`); a fully-opaque GROUP_BG item box on that bar reads as a solid chip — leave `background.drawing=off`.
 - Bar text is Noto Sans Mono Regular/Bold (variable font on disk); Nerd glyphs stay on `FONT_ICON` ("Symbols Nerd Font Mono") or they tofu. `--query` still cannot prove the face resolved.
+- Colour emoji (weather) needs `icon.font="Apple Color Emoji:Regular:14.0"` and `icon.color=0xffffffff`; FONT_ICON has no colour emoji, and `$ACCENT` tint washes them out.
+- Weather is Open-Meteo (no key) + IP geolocation cached 24h in `$TMPDIR`; sketchybar has no CoreLocation TCC identity, and AeroSpace launch means it cannot read `secrets.fish`.
 - `ACCENT` is `$FG` (#d4be98), independent of `ORANGE` / borders / kitty color3. Focused workspace digits use it; unfocused stay `$FG_DIM`.
 - Right-side pipes (`add_right_separator` in sketchybarrc) own section spacing; item padding on those chips stays 0.
 

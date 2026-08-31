@@ -35,30 +35,15 @@ export ICON_CLOCK="󱛡"              # U+F16E1 nf-md-calendar_clock_outline
 export ICON_CALENDAR=""           # U+F073 nf-fa-calendar
 export ICON_MUSIC=""              # U+F001 nf-fa-music
 
-# --- Application icons (front_app chip) --------------------------------------
-# One glyph per app, matched in plugins/front_app.sh against the name macOS
-# reports in $INFO on a front_app_switched event.
-#
-# That name is the bundle's localizedName, which is NOT always the .app
-# filename: Docker's window belongs to the INNER Docker Desktop.app, so it
-# reports "Docker Desktop", and Chrome reports "Google Chrome" even though its
-# CFBundleName is only "Chrome". Read the name an app actually reports with:
-#   sketchybar --query front_app.name | jq -r .label.value
-export ICON_APP_KITTY="󰄛"                # U+F011B nf-md-cat
-export ICON_APP_GHOSTTY=""              # U+EEFE  nf-fa-ghost
-export ICON_APP_HELIUM="󰜗"               # U+F0717 nf-md-snowflake
-export ICON_APP_GITKRAKEN=""             # U+F2AC  nf-fa-gitkraken
-export ICON_APP_DOCKER=""                # U+F21F  nf-fa-docker
-export ICON_APP_OBSIDIAN=""              # U+E6BB  nf-custom-obsidian
-export ICON_APP_TEAMS="󰊻"                # U+F02BB nf-md-microsoft_teams
-export ICON_APP_CHROME=""                # U+F268  nf-fa-chrome
-export ICON_APP_PASSWORDS="󱕴"            # U+F1574 nf-md-key_chain
-export ICON_APP_EMACS=""                 # U+E632  nf-custom-emacs
-export ICON_APP_FINDER="󰀶"               # U+F0036 nf-md-apple_finder
-export ICON_APP_PREVIEW="󰈈"             # U+F0208 nf-md-eye
-export ICON_APP_CISCO=""               # U+F1E6  nf-fa-plug
-export ICON_APP_ELMEDIA=""             # U+F144  nf-fa-circle_play
-export ICON_APP_EXCEL="󱎏"              # U+F138F nf-md-microsoft_excel
-export ICON_APP_CLAUDE=""              # U+EC82  nf-cod-claude
-export ICON_APP_DEFAULT="󰘔"              # U+F0614 nf-md-application_outline (any unmapped app)
-# export ICON_APP_DEFAULT="󰣆"            # U+F08C6 nf-md-application (filled alt)
+# Weather emojis (Open-Meteo WMO codes; day/night variants where they exist)
+export ICON_WEATHER_SUNNY="☀️"                 # sun
+export ICON_WEATHER_NIGHT="🌙"                    # crescent moon
+export ICON_WEATHER_PARTLY_CLOUDY="⛅"                # sun behind cloud
+export ICON_WEATHER_NIGHT_PARTLY_CLOUDY="☁️"    # cloud
+export ICON_WEATHER_CLOUDY="☁️"                 # cloud
+export ICON_WEATHER_RAINY="🌧"                    # cloud with rain
+export ICON_WEATHER_POURING="🌧"                  # cloud with rain
+export ICON_WEATHER_SNOWY="🌨"                    # cloud with snow
+export ICON_WEATHER_SNOWY_HEAVY="❄️"            # snowflake
+export ICON_WEATHER_LIGHTNING="⛈️"              # thunder cloud
+export ICON_WEATHER_FOG="🌫"                      # fog

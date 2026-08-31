@@ -22,13 +22,13 @@
 
 ## Decisions Log
 
+[2026-08-31] DECISION: Weather chip after RAM uses Open-Meteo (no key) + IP geolocation (24h cache), Celsius, and Apple Color Emoji (☀️/🌙 from `is_day`). `icon.font` is Apple Color Emoji; `icon.color` is white so they are not tinted to ACCENT.
+              REASON: User wanted temp + condition at current location. Open-Meteo beats a keyed API here: sketchybar is launched from AeroSpace and cannot see `secrets.fish`. IP, not CoreLocation — the bar has no TCC identity (same as SSID).
+              REJECTED: WeatherAPI.com (gitignored key file for no gain at 48 calls/day); Nerd Font weather glyphs (user preferred emoji after seeing them live).
+
 [2026-08-31] DECISION: SketchyBar is a flat 32px strip — no item boxes, workspace digits recolor on focus, right side `media | cpu | ram | clock` with pipes, wifi/volume unhooked (files kept). Text is Noto Sans Mono; Nerd glyphs stay on FONT_ICON. BAR_BG is BG1 @ 70% (`0xb3282828`). ACCENT is `$FG` (#d4be98), not borders orange. AeroSpace top gap is `[{ monitor."built-in" = 10 }, 40]`.
               REASON: User dropped the boxed/two-line look, then iterated color (orange → #C88C6A → coffee yellow → FG), alpha (opaque → 70%), font, and which sections stay.
               REJECTED: Copying the reference layout; keeping CPU graphs / two-line wifi / the two-tone app chip; tying ACCENT to borders; putting Nerd glyphs on Noto (tofu); nf-fa-memory as wifi-up (already RAM).
-
-[2026-08-24] DECISION: The doom face cycle is deleted outright — `plugins/doom.sh`, the whole `assets/` tree (27 sprites + `doom.png`/`doom-src.png`), `scripts/prepare-doom-faces.py` — and the logo chip is one static glyph again: `nf-md-coffee` U+F0176 in `$YELLOW`, dynamic width, no timer. Supersedes [2026-08-14] and [2026-08-19] (already archived).
-              REASON: User asked for a single icon again, so nothing consumes the plugin or sprites; keeping them as a revert path leaves 27 binaries and a 5s-tick plugin for a dead feature. Git history is the revert path, and the unprocessed HUD frames were never committed (`~/Downloads/doom_faces`).
-              REJECTED: (1) Unhook the script, keep the sprites — dead weight, same re-add cost. (2) Static `assets/doom.png` — still an image chip, not a glyph. (3) `nf-pom-away` U+E007, built and shown first, rejected on looks.
 
 [2026-08-22] DECISION: `ghostty` is a new stow package ported from `kitty.conf`, carrying its own `themes/Gruvbox Material Dark Hard` instead of Ghostty's bundled Gruvbox Material Dark. kitty stays the documented default; ghostty is additive.
               REASON: The bundled theme is the MEDIUM variant (`#282828`), and its palette 3 would break the accent orange shared with JankyBorders and SketchyBar. `~/.config/ghostty/themes/` is searched before app resources, so a local file wins on a similar name.
@@ -44,16 +44,18 @@
 
 ## Session — 2026-08-31 — Flatten SketchyBar
 ### Worked On
-- Flattening the bar: no boxes, pipes, slimmer height, color/font/alpha iteration.
+- Flattening the bar; adding a weather chip after RAM.
 ### Completed
 - 32px bar, BAR_BG BG1@70%, ACCENT=$FG; workspaces are digits (focus=$ACCENT, else $FG_DIM).
-- Right side `media | cpu | ram | clock`; wifi/volume unhooked; CPU is nf-oct-cpu + %; RAM is nf-fa-memory.
-- App name only; clock is one line with a 3-space date/time gap; text is Noto Sans Mono; AeroSpace top gap 10/40.
+- Right side `media | cpu | ram | weather | clock`; wifi/volume unhooked; CPU nf-oct-cpu; RAM nf-fa-memory.
+- Weather: Open-Meteo + IP location, Celsius + Apple Color Emoji (☀️/🌙 from is_day).
+- App name only; clock one line with a 3-space date/time gap; text is Noto Sans Mono; AeroSpace top gap 10/40.
 ### In Progress (with next step)
 - CLAUDE.md SketchyBar section is stale (graphs, two-line chips, Helvetica, boxes) — rewrite next.
 - Carried: ghostty docs; GitKraken glyph; `config.fish.bak.*`; reboot-verify daemons.
 ### Decisions Made
 - [2026-08-31] flat 32px bar, ACCENT=$FG, Noto Sans Mono, 70% BAR_BG.
+- [2026-08-31] weather via Open-Meteo + emoji, not a keyed API or Nerd Font glyphs.
 ### Next Session Priorities
 1. Rewrite CLAUDE.md SketchyBar section to match the flat bar.
 2. Document the ghostty package in CLAUDE.md + README.
