@@ -47,10 +47,11 @@ SketchyBar section, not here. This file is only the traps.
 - `sketchybar --reload` is ASYNCHRONOUS: a plugin invoked on the next line fails with `[!] Set: Item not found`. Sequence it as a separate call.
 - sketchybar `--query <item>` nests `click_script`/`script` under `.scripting` and `bounding_rects` at top level — not under `.geometry`; `icon.font`/`label.font` are flat `Family:Style:Size` strings, not objects. The item's OWN background is the mirror image: it IS under `.geometry.background`, so a top-level `.background.color` reads `null` and looks like the item has no box when it does.
 - The name sketchybar reports in `$INFO` on `front_app_switched` is the bundle's `localizedName`, NOT the `.app` filename: Docker's window belongs to the INNER `Docker Desktop.app` so it reports "Docker Desktop", and Chrome reports "Google Chrome" though its `CFBundleName` is only "Chrome". Read the real one with `sketchybar --query front_app.name | jq -r .label.value` rather than assuming the bundle name.
-- Resolve EVERY Nerd Font name in the installed Symbols Nerd Font cmap (fontTools), not from published numbers — `fa-*` drifts as badly as `nf-md-*`: `nf-md-microsoft_excel` is U+F138F here, U+F01D8 is `md-dots_horizontal`, and `fa-ghost` is **U+EEFE** while the widely-published U+F6E2 is absent from this font entirely.
+- Resolve EVERY Nerd Font name in the installed Symbols Nerd Font cmap (fontTools), not from published numbers — `fa-*` drifts as badly as `nf-md-*` (excel, ghost, gitkraken all mismatched here).
 - A codepoint matching its own comment does NOT mean the comment's NAME is right: `ICON_APP_GITKRAKEN` is U+F2AC as documented, but U+F2AC is `fa-snapchat_ghost` in this font — GitKraken's chip has been rendering a Snapchat ghost, and no GitKraken glyph exists here (only `dev-krakenjs_badge` U+E784, a different project). Audit `icons.sh` against the cmap, not against itself.
 - A sketchybar popup on a multi-item chip must subscribe `mouse.exited.global`, never plain `mouse.exited` — the latter fires as the pointer crosses between that chip's own items and shuts the popup mid-chip.
-- sketchybar caches `background.image` by path: overwriting a PNG in place can keep the old bitmap. Swap to a different path (or `--reload`) to force a re-read — the deleted doom cycle used one file per frame for exactly that reason.
+- sketchybar caches `background.image` by path: overwriting a PNG in place can keep the old bitmap. Swap path or `--reload`.
+- SketchyBar `media_change` is deprecated on macOS 26 and does not fire; use `media-control get --no-artwork` (Brewfile). A `drawing=off` item with `updates=when_shown` never runs its script and cannot unhide — media uses `updates=on`.
 
 ## Sampling in plugins
 

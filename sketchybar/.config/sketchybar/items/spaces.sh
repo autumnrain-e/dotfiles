@@ -17,7 +17,7 @@
 # same way.
 SPACE_EDGE=8
 
-# Logo chip: a single static Nerd Font glyph ($ICON_LOGO, nf-md-coffee), no
+# Logo chip: a single static Nerd Font glyph ($ICON_LOGO, nf-fa-canadian_maple_leaf), no
 # script and no timer. Width is deliberately dynamic — one fixed glyph never
 # re-measures, and a pinned width would swallow this item's own padding_right.
 # padding_right stays 0 so it does not stack on SPACE_EDGE.

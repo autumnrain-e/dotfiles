@@ -22,6 +22,14 @@
 
 ## Decisions Log
 
+[2026-08-31] DECISION: Media chip uses `media-control` (Brewfile), not SketchyBar `media_change`. Playing: equalizer bars; paused: nf-fa-pause + title; stopped: hidden. Item has `updates=on` and `update_freq=1`.
+              REASON: `media_change` is deprecated on macOS 26 and does not fire (26.6.2). A hidden item with default `updates=when_shown` never runs its script, so it cannot unhide. `media-control get --no-artwork` talks to MediaRemote.
+              REJECTED: nowplaying-cli (same Sequoia breakage); keeping `media_change` as primary.
+
+[2026-08-31] DECISION: Logo is `nf-fa-canadian_maple_leaf` U+EF39, still `$YELLOW`. Coffee/pom-away/ghost stay commented alts. Supersedes archived [2026-08-24] coffee logo.
+              REASON: User asked for the maple leaf after the flatten.
+              REJECTED: Recolouring it to Canadian red — not asked.
+
 [2026-08-31] DECISION: Weather chip after RAM uses Open-Meteo (no key) + IP geolocation (24h cache), Celsius, and Apple Color Emoji (☀️/🌙 from `is_day`). `icon.font` is Apple Color Emoji; `icon.color` is white so they are not tinted to ACCENT.
               REASON: User wanted temp + condition at current location. Open-Meteo beats a keyed API here: sketchybar is launched from AeroSpace and cannot see `secrets.fish`. IP, not CoreLocation — the bar has no TCC identity (same as SSID).
               REJECTED: WeatherAPI.com (gitignored key file for no gain at 48 calls/day); Nerd Font weather glyphs (user preferred emoji after seeing them live).
@@ -34,28 +42,28 @@
               REASON: The bundled theme is the MEDIUM variant (`#282828`), and its palette 3 would break the accent orange shared with JankyBorders and SketchyBar. `~/.config/ghostty/themes/` is searched before app resources, so a local file wins on a similar name.
               REJECTED: (1) `theme = Gruvbox Material Dark` — wrong variant, desyncs three tools. (2) Replacing the kitty package — kitty's conf is untouched and still default. (3) One theme file shared by both terminals — formats differ (`color3` vs `palette = 3=`).
 
-[2026-08-22] DECISION: `cask "ghostty"` is in the Brewfile as a bootstrap-only entry, reconciled with the already-installed 1.3.1 via `brew install --cask --adopt`.
-              REASON: Closes the fresh-machine gap kitty has on purpose. The cask is `auto_updates`, so `brew upgrade` skips it and Ghostty's own updater stays in charge — brew only bootstraps, and the Caskroom version going stale is expected.
-              REJECTED: (1) Leaving it out for symmetry with kitty — kitty's absence is forced by its curl-installer upstream, ghostty has a real cask. (2) `--force` — deletes and reinstalls a working app. (3) Uninstall-then-install — same, with downtime.
-
 ---
 
 ## Session History
 
 ## Session — 2026-08-31 — Flatten SketchyBar
 ### Worked On
-- Flattening the bar; adding a weather chip after RAM.
+- Flattening the bar; weather; maple-leaf logo; now-playing chip.
 ### Completed
 - 32px bar, BAR_BG BG1@70%, ACCENT=$FG; workspaces are digits (focus=$ACCENT, else $FG_DIM).
 - Right side `media | cpu | ram | weather | clock`; wifi/volume unhooked; CPU nf-oct-cpu; RAM nf-fa-memory.
 - Weather: Open-Meteo + IP location, Celsius + Apple Color Emoji (☀️/🌙 from is_day).
+- Logo is `nf-fa-canadian_maple_leaf` U+EF39 in `$YELLOW`.
+- Media: `media-control` (macOS 26); equalizer while playing, nf-fa-pause when paused.
 - App name only; clock one line with a 3-space date/time gap; text is Noto Sans Mono; AeroSpace top gap 10/40.
 ### In Progress (with next step)
 - CLAUDE.md SketchyBar section is stale (graphs, two-line chips, Helvetica, boxes) — rewrite next.
 - Carried: ghostty docs; GitKraken glyph; `config.fish.bak.*`; reboot-verify daemons.
 ### Decisions Made
 - [2026-08-31] flat 32px bar, ACCENT=$FG, Noto Sans Mono, 70% BAR_BG.
-- [2026-08-31] weather via Open-Meteo + emoji, not a keyed API or Nerd Font glyphs.
+- [2026-08-31] weather via Open-Meteo + emoji.
+- [2026-08-31] logo maple leaf, still yellow.
+- [2026-08-31] media via media-control, not media_change.
 ### Next Session Priorities
 1. Rewrite CLAUDE.md SketchyBar section to match the flat bar.
 2. Document the ghostty package in CLAUDE.md + README.

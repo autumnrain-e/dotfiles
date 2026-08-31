@@ -11,6 +11,12 @@ recorded a one-off change which has fully shipped. Archived decisions are stored
 
 ## Decisions Log — Archived
 
+*Relocated 2026-08-31 (later) — fully shipped Brewfile cask adopt, to make room for the media-control decision. Verbatim.*
+
+[2026-08-22] DECISION: `cask "ghostty"` is in the Brewfile as a bootstrap-only entry, reconciled with the already-installed 1.3.1 via `brew install --cask --adopt`.
+              REASON: Closes the fresh-machine gap kitty has on purpose. The cask is `auto_updates`, so `brew upgrade` skips it and Ghostty's own updater stays in charge — brew only bootstraps, and the Caskroom version going stale is expected.
+              REJECTED: (1) Leaving it out for symmetry with kitty — kitty's absence is forced by its curl-installer upstream, ghostty has a real cask. (2) `--force` — deletes and reinstalls a working app. (3) Uninstall-then-install — same, with downtime.
+
 *Relocated 2026-08-31 — fully shipped (coffee logo is live; git is the revert path) to make room for the weather-chip decision under the 8,900-char ceiling. Verbatim.*
 
 [2026-08-24] DECISION: The doom face cycle is deleted outright — `plugins/doom.sh`, the whole `assets/` tree (27 sprites + `doom.png`/`doom-src.png`), `scripts/prepare-doom-faces.py` — and the logo chip is one static glyph again: `nf-md-coffee` U+F0176 in `$YELLOW`, dynamic width, no timer. Supersedes [2026-08-14] and [2026-08-19] (already archived).

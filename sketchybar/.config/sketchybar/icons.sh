@@ -9,7 +9,8 @@
 # verify the bytes survived:
 #   bash -c 'source icons.sh; printf %s "$ICON_LOGO"' | hexdump -C
 
-export ICON_LOGO="󰅶"               # U+F0176 nf-md-coffee
+export ICON_LOGO=""               # U+EF39  nf-fa-canadian_maple_leaf
+# export ICON_LOGO="󰅶"             # U+F0176 nf-md-coffee (alt)
 # export ICON_LOGO=""             # U+E007  nf-pom-away (alt)
 # export ICON_LOGO="󰊠"             # U+F02A0 nf-md-ghost (alt, the original logo glyph)
 export ICON_CPU=""                # U+F4BC nf-oct-cpu
@@ -34,6 +35,7 @@ export ICON_BATTERY_CHARGING=""   # U+F0E7 nf-fa-bolt
 export ICON_CLOCK="󱛡"              # U+F16E1 nf-md-calendar_clock_outline
 export ICON_CALENDAR=""           # U+F073 nf-fa-calendar
 export ICON_MUSIC=""              # U+F001 nf-fa-music
+export ICON_PAUSE=""             # U+F04C  nf-fa-pause
 
 # Weather emojis (Open-Meteo WMO codes; day/night variants where they exist)
 export ICON_WEATHER_SUNNY="☀️"                 # sun

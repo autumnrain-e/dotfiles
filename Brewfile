@@ -23,6 +23,7 @@ brew "jq"
 brew "lazygit"
 brew "libmagic"
 brew "librsvg"
+brew "media-control" # Now Playing for SketchyBar; media_change is dead on macOS 26
 brew "luarocks"
 brew "neovim"
 brew "pngquant"
