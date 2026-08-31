@@ -91,21 +91,19 @@ gaps.outer.left =       8
 gaps.outer.bottom =     2
 # Per monitor, because the two displays need different numbers for the SAME result.
 #
-# The target on both is a window top edge 47pt down: 39 (SketchyBar height) + 8
+# The target on both is a window top edge 40pt down: 32 (SketchyBar height) + 8
 # (matching the inner gaps), so tiled windows clear the bar.
 #
-# On the Dell that means a 47pt gap, because AeroSpace measures from a visible frame
+# On the Dell that means a 40pt gap, because AeroSpace measures from a visible frame
 # that starts at y=0 there (the macOS menu bar is set to auto-hide).
 #
 # The built-in display reserves ~30pt at the top for the menu bar / notch, and that
 # reserve is EXCLUDED from the visible frame AeroSpace measures against — so the gap
-# stacks on top of it. Measured with 47 here: the window edge landed at 77pt
-# (47 + 30), which is the "gap is too big on the laptop" symptom. 17 puts it back at
-# the intended 47.
+# stacks on top of it. 10 puts it back at the intended 40 (10 + 30).
 #
 # Re-measure rather than guess if this ever looks wrong: screenshot the top-left
 # corner and find the window's border edge in points.
-gaps.outer.top =        [{ monitor."built-in" = 17 }, 47]
+gaps.outer.top =        [{ monitor."built-in" = 10 }, 40]
 gaps.outer.right =      8
 
 # 'main' binding mode declaration

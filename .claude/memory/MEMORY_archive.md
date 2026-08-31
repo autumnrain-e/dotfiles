@@ -176,6 +176,40 @@ invariants in the active file. Verbatim.*
 
 ## Session History — Archived
 
+*Aged out 2026-08-31 by the size ceiling, not the 4-block cap, to make room for the flatten-bar session. Verbatim.*
+
+## Session — 2026-08-24 — Doom removal, coffee logo
+### Worked On
+- Deleting the doom animation from SketchyBar; single static glyph back on the logo chip.
+### Completed
+- Deleted `plugins/doom.sh`, `assets/`, `scripts/`; logo is a plain glyph item again — `$ICON_LOGO` = `nf-md-coffee` U+F0176, `$YELLOW`, dynamic width, pom-away/ghost alts commented.
+- Verified live: no script/image on the item, logo→workspace-1 still 10px. CLAUDE.md rewritten, sprite-fringe invariant dropped.
+### In Progress (with next step)
+- Uncommitted: stage the sketchybar paths alone, the tree also holds unrelated ghostty edits.
+- Carried: ghostty docs; GitKraken glyph; `config.fish.bak.*`; reboot-verify daemons; media.
+### Decisions Made
+- [2026-08-24] doom deleted outright, logo back to one static glyph.
+### Next Session Priorities
+1. Commit sketchybar separately from the ghostty work in progress.
+2. Document the `ghostty` package in CLAUDE.md + README.
+
+## Session — 2026-08-22 — Ghostty package
+### Worked On
+- New `ghostty` stow package ported from `kitty.conf`; Homebrew cask adopt; SketchyBar ghost glyph.
+### Completed
+- `config.ghostty` + local `themes/Gruvbox Material Dark Hard`, stowed, `+validate-config` clean and every resolved value checked.
+- `brew install --cask --adopt ghostty` (1.3.1 in place, gained man pages + fish completions) and `cask "ghostty"` in the Brewfile.
+- `ICON_APP_GHOSTTY` U+EEFE + `"Ghostty"` branch in `plugins/front_app.sh`; verified on the live bar and by screenshot.
+### In Progress (with next step)
+- CLAUDE.md + README have no Ghostty section yet — write one next.
+- Carried: `config.fish.bak.*`; reboot-verify daemons; media.
+### Decisions Made
+- [2026-08-22] ghostty package with its own hard-variant theme file; [2026-08-22] Brewfile bootstrap-only cask via `--adopt`.
+### Next Session Priorities
+1. Document the `ghostty` package in CLAUDE.md + README.
+2. Decide GitKraken's glyph — U+F2AC resolves to `fa-snapchat_ghost`, now a visual twin of Ghostty's chip, and this font has no GitKraken glyph.
+3. Drop stray `config.fish.bak.*` before stow.
+
 *Aged out 2026-08-22 by the size ceiling, not the 4-block cap, to make room for the Ghostty
 session. Verbatim.*
 

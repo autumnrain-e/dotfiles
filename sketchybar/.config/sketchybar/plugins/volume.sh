@@ -17,7 +17,8 @@ case "$VOLUME" in
 '' | *[!0-9]*)
     sketchybar --set "$NAME" \
         icon="$ICON_VOLUME_HIGH" \
-        icon.color="$FG_DIM" \
+        icon.color="$ACCENT" \
+        label.color="$ACCENT" \
         label.drawing=off
     exit 0
     ;;
@@ -27,17 +28,18 @@ MUTED="$(osascript -e 'output muted of (get volume settings)' 2>/dev/null)"
 
 if [ "$MUTED" = "true" ] || [ "$VOLUME" -eq 0 ]; then
     ICON="$ICON_VOLUME_MUTE"
-    COLOR="$FG_DIM"
+    COLOR="$ACCENT"
 elif [ "$VOLUME" -lt 50 ]; then
     ICON="$ICON_VOLUME_LOW"
-    COLOR="$FG"
+    COLOR="$ACCENT"
 else
     ICON="$ICON_VOLUME_HIGH"
-    COLOR="$FG"
+    COLOR="$ACCENT"
 fi
 
 sketchybar --set "$NAME" \
     icon="$ICON" \
     icon.color="$COLOR" \
+    label.color="$COLOR" \
     label="${VOLUME}%" \
     label.drawing=on

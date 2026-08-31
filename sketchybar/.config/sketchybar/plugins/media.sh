@@ -6,7 +6,7 @@
 STATE="$(echo "$INFO" | jq -r '.state // "stopped"' 2>/dev/null)"
 
 if [ "$STATE" != "playing" ]; then
-    sketchybar --set "$NAME" drawing=off
+    sketchybar --set "$NAME" drawing=off --set sep.cpu drawing=off
     exit 0
 fi
 
@@ -20,8 +20,8 @@ else
 fi
 
 if [ -z "$LABEL" ]; then
-    sketchybar --set "$NAME" drawing=off
+    sketchybar --set "$NAME" drawing=off --set sep.cpu drawing=off
     exit 0
 fi
 
-sketchybar --set "$NAME" drawing=on label="$LABEL"
+sketchybar --set "$NAME" drawing=on label="$LABEL" --set sep.cpu drawing=on

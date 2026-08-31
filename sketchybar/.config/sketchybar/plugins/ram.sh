@@ -31,34 +31,16 @@ RAM_USAGE="$(vm_stat 2>/dev/null | awk -v total="$(sysctl -n hw.memsize)" '
         printf "%.0f", (active + wired + comp) * page * 100 / total
     }')"
 
-# vm_stat missing or unparseable — show the glyph dimmed with a placeholder
-# rather than a bogus number or a silently stale one.
+# vm_stat missing or unparseable — dim icon and label together rather than a
+# bogus number or a silently stale one.
 case "$RAM_USAGE" in
 '' | *[!0-9]*)
-    sketchybar --set "$NAME" icon.color="$FG_DIM" label="--"
+    sketchybar --set "$NAME" icon.color="$ACCENT" label.color="$ACCENT" label="--"
     exit 0
     ;;
 esac
 
-# macOS runs memory hot by design — a healthy machine sits well above half, and
-# the compressor absorbs a lot before anything actually swaps — so these
-# thresholds sit much higher than the cpu chip's 70/30/10.
-#
-# The resting colour is AQUA rather than FG: it is the one palette entry no other
-# item claims (clock and wifi take BLUE, media MAGENTA, the logo YELLOW, wifi's
-# upload dot RED), so the chip is identifiable at a glance without competing with
-# its neighbours. Only the ICON is coloured — the label inherits FG from the
-# --default block, which is what every other chip does.
-if [ "$RAM_USAGE" -ge 90 ]; then
-    COLOR="$RED"
-elif [ "$RAM_USAGE" -ge 80 ]; then
-    COLOR="$ORANGE"
-elif [ "$RAM_USAGE" -ge 65 ]; then
-    COLOR="$YELLOW"
-else
-    COLOR="$AQUA"
-fi
-
 sketchybar --set "$NAME" \
-    icon.color="$COLOR" \
+    icon.color="$ACCENT" \
+    label.color="$ACCENT" \
     label="${RAM_USAGE}%"

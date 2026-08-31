@@ -13,7 +13,7 @@ source "$CONFIG_DIR/icons.sh"
 
 # The popup item declared in items/wifi.sh. Hardcoded rather than $NAME: this
 # script is invoked from a click_script, where $NAME is the item that was
-# clicked — any of the three that make up the chip.
+# clicked — either wifi.up or wifi.down.
 POPUP_ITEM="wifi.name"
 
 # Resolve the Wi-Fi interface instead of assuming en0 (varies across Macs).
@@ -24,9 +24,9 @@ IFACE="${IFACE:-en0}"
 if ! ifconfig "$IFACE" 2>/dev/null | grep -q "status: active"; then
     sketchybar --set "$POPUP_ITEM" \
         icon="$ICON_WIFI_OFF" \
-        icon.color="$FG_DIM" \
+        icon.color="$ACCENT" \
         label="not connected" \
-        label.color="$FG_DIM"
+        label.color="$ACCENT"
     exit 0
 fi
 
@@ -82,6 +82,6 @@ usable "$SSID" || SSID="connected"
 
 sketchybar --set "$POPUP_ITEM" \
     icon="$ICON_WIFI" \
-    icon.color="$BLUE" \
+    icon.color="$ACCENT" \
     label="$SSID" \
-    label.color="$FG"
+    label.color="$ACCENT"

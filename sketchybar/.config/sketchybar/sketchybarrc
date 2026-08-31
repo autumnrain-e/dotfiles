@@ -25,11 +25,16 @@ source "$CONFIG_DIR/icons.sh"
 # "Condensed" / "Medium Condensed" / "Bold Condensed" — there is no plain "Bold".
 # Before changing FONT_TEXT, check the family's real style names:
 #   fc-list | grep -i <family>
-export FONT_TEXT="Helvetica"
+export FONT_TEXT="Noto Sans Mono"
 export FONT_TEXT_REGULAR="Regular"
 export FONT_TEXT_BOLD="Bold"
 
-# Theme default — Berkeley Mono (Condensed cut).
+# Previous text face — Helvetica Regular/Bold.
+# export FONT_TEXT="Helvetica"
+# export FONT_TEXT_REGULAR="Regular"
+# export FONT_TEXT_BOLD="Bold"
+
+# Berkeley Mono (Condensed cut).
 # export FONT_TEXT="Berkeley Mono"
 # export FONT_TEXT_REGULAR="Condensed"
 # export FONT_TEXT_BOLD="Bold Condensed"
@@ -47,8 +52,12 @@ export FONT_ICON="Symbols Nerd Font Mono"
 sketchybar --add event aerospace_workspace_change
 
 ##### Bar appearance #####
+# 32 rather than 39: the two-line clock/cpu/wifi chips are gone or no longer
+# set the height, so the bar only needs a single 13pt label plus icon.
+# Keep aerospace.toml gaps.outer.top in lockstep (32 + 8 = 40 on the Dell;
+# 10 on the built-in, which already reserves ~30pt above the visible frame).
 sketchybar --bar \
-    height=39 \
+    height=32 \
     position=top \
     sticky=on \
     padding_left=8 \
@@ -68,16 +77,33 @@ sketchybar --bar \
 sketchybar --default \
     updates=when_shown \
     icon.font="$FONT_ICON:Regular:16.0" \
-    icon.color="$FG" \
+    icon.color="$ACCENT" \
     icon.padding_left=8 \
     icon.padding_right=4 \
     label.font="$FONT_TEXT:$FONT_TEXT_BOLD:13.0" \
-    label.color="$FG" \
+    label.color="$ACCENT" \
     label.padding_left=4 \
     label.padding_right=8 \
     background.corner_radius=6 \
     background.height=26 \
     background.drawing=off
+
+# Pipe between right-side sections. Right items are added right-to-left, so
+# call this AFTER the item that should sit to the right of the pipe.
+add_right_separator() {
+    local name="$1"
+    sketchybar --add item "$name" right \
+        --set "$name" \
+        icon="|" \
+        icon.font="$FONT_TEXT:$FONT_TEXT_REGULAR:13.0" \
+        icon.color="$ACCENT" \
+        icon.padding_left=8 \
+        icon.padding_right=8 \
+        label.drawing=off \
+        background.drawing=off \
+        padding_left=0 \
+        padding_right=0
+}
 
 ##### Items #####
 # Order matters: left items are added left-to-right, right items right-to-left.
@@ -86,19 +112,22 @@ source "$CONFIG_DIR/items/front_app.sh"
 # THE ORDER OF THESE LINES IS THE LEFT-TO-RIGHT ORDER OF THE BAR, REVERSED.
 # Right items are added right-to-left, so each source line lands its cluster to
 # the LEFT of the previous one — clock first therefore means clock rightmost.
-# The reading order this produces is:
+# Pipes sit between sections, producing:
 #
-#   media | cpu | ram | wifi | volume | clock
+#   media | cpu | ram | clock
 #
-# (media draws only while something is playing; battery is commented out inside
-# items/status.sh.) To move a chip, move its line here — that is the only place
-# the order is expressed. To revert a cluster to its old single-chip form, drop
-# its line and uncomment the matching block in items/status.sh.
+# (media draws only while something is playing, and hides its leading pipe with
+# it; wifi and volume are unhooked — their item files and plugins stay on disk.)
+# To move a section, move its source line AND the separator that follows it.
 source "$CONFIG_DIR/items/clock.sh"
-source "$CONFIG_DIR/items/status.sh"
-source "$CONFIG_DIR/items/wifi.sh"
+add_right_separator sep.clock
 source "$CONFIG_DIR/items/ram.sh"
+add_right_separator sep.ram
 source "$CONFIG_DIR/items/cpu.sh"
+add_right_separator sep.cpu
+# Hidden until something is playing — media.sh starts drawing=off and the
+# plugin toggles this pipe in lockstep so it doesn't dangle at the cluster edge.
+sketchybar --set sep.cpu drawing=off
 source "$CONFIG_DIR/items/media.sh"
 
 ##### Finalize #####

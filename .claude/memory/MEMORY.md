@@ -15,12 +15,16 @@
 - Nerd Font PUA glyphs must be written to config files via Python `\uXXXX` escapes — pasted glyphs are silently dropped or corrupted. `nf-md-*` glyphs above U+FFFF (e.g. U+F16E1) need the 8-digit `\U` form.
 - "Symbols Nerd Font Mono" is required by kitty's `symbol_map` and every sketchybar icon, is **not** a system font, and kitty falls back silently with no error if it is missing. Cask: `font-symbols-only-nerd-font`.
 - Each active memory file must stay under **8,900 chars** — past that the harness silently substitutes a preview while the hook still reports `success`. Verify with `bash .claude/hooks/load-memory.sh | wc -m`.
-- AeroSpace measures gaps from the monitor's VISIBLE frame, and a notched built-in display's ~30pt menu-bar reserve is already excluded from it — so a top gap stacks on top of that: 47 put the window edge at 77pt there, 17 lands it at the intended 47. Per-monitor form: `[{ monitor."built-in" = 17 }, 47]`; `built-in` is a valid pattern.
+- AeroSpace measures gaps from the monitor's VISIBLE frame, and a notched built-in display's ~30pt menu-bar reserve is already excluded from it — so a top gap stacks on top of that. Current bar is 32px, so the target is 40pt (32+8): `[{ monitor."built-in" = 10 }, 40]` (10+30=40 on the notch).
 - Per-monitor gaps re-resolve on monitor hot-plug — re-docking the display restored its own value with no config touch (one `asreload` was also run, so not cleanly isolated). `aerospace reload-config` DOES apply gaps live (verified, windows re-tile). Only `after-startup-command` needs a real restart — and `open -a AeroSpace` on a running app merely activates it, so AeroSpace, sketchybar and borders must all be killed first or the daemons stay dead.
 - CoreText matches font style names EXACTLY; an unmatched style falls back to **Helvetica** silently, and `sketchybar --query` echoes the requested string, not the resolved font, so it never reveals the swap.
 - Berkeley Mono here is the *Condensed* cut — faces are `Condensed`/`Medium Condensed`/`Bold Condensed`; there is no plain `Bold`.
 
 ## Decisions Log
+
+[2026-08-31] DECISION: SketchyBar is a flat 32px strip — no item boxes, workspace digits recolor on focus, right side `media | cpu | ram | clock` with pipes, wifi/volume unhooked (files kept). Text is Noto Sans Mono; Nerd glyphs stay on FONT_ICON. BAR_BG is BG1 @ 70% (`0xb3282828`). ACCENT is `$FG` (#d4be98), not borders orange. AeroSpace top gap is `[{ monitor."built-in" = 10 }, 40]`.
+              REASON: User dropped the boxed/two-line look, then iterated color (orange → #C88C6A → coffee yellow → FG), alpha (opaque → 70%), font, and which sections stay.
+              REJECTED: Copying the reference layout; keeping CPU graphs / two-line wifi / the two-tone app chip; tying ACCENT to borders; putting Nerd glyphs on Noto (tofu); nf-fa-memory as wifi-up (already RAM).
 
 [2026-08-24] DECISION: The doom face cycle is deleted outright — `plugins/doom.sh`, the whole `assets/` tree (27 sprites + `doom.png`/`doom-src.png`), `scripts/prepare-doom-faces.py` — and the logo chip is one static glyph again: `nf-md-coffee` U+F0176 in `$YELLOW`, dynamic width, no timer. Supersedes [2026-08-14] and [2026-08-19] (already archived).
               REASON: User asked for a single icon again, so nothing consumes the plugin or sprites; keeping them as a revert path leaves 27 binaries and a 5s-tick plugin for a dead feature. Git history is the revert path, and the unprocessed HUD frames were never committed (`~/Downloads/doom_faces`).
@@ -38,34 +42,18 @@
 
 ## Session History
 
-## Session — 2026-08-24 — Doom removal, coffee logo
+## Session — 2026-08-31 — Flatten SketchyBar
 ### Worked On
-- Deleting the doom animation from SketchyBar; single static glyph back on the logo chip.
+- Flattening the bar: no boxes, pipes, slimmer height, color/font/alpha iteration.
 ### Completed
-- Deleted `plugins/doom.sh`, `assets/`, `scripts/`; logo is a plain glyph item again — `$ICON_LOGO` = `nf-md-coffee` U+F0176, `$YELLOW`, dynamic width, pom-away/ghost alts commented.
-- Verified live: no script/image on the item, logo→workspace-1 still 10px. CLAUDE.md rewritten, sprite-fringe invariant dropped.
+- 32px bar, BAR_BG BG1@70%, ACCENT=$FG; workspaces are digits (focus=$ACCENT, else $FG_DIM).
+- Right side `media | cpu | ram | clock`; wifi/volume unhooked; CPU is nf-oct-cpu + %; RAM is nf-fa-memory.
+- App name only; clock is one line with a 3-space date/time gap; text is Noto Sans Mono; AeroSpace top gap 10/40.
 ### In Progress (with next step)
-- Uncommitted: stage the sketchybar paths alone, the tree also holds unrelated ghostty edits.
-- Carried: ghostty docs; GitKraken glyph; `config.fish.bak.*`; reboot-verify daemons; media.
+- CLAUDE.md SketchyBar section is stale (graphs, two-line chips, Helvetica, boxes) — rewrite next.
+- Carried: ghostty docs; GitKraken glyph; `config.fish.bak.*`; reboot-verify daemons.
 ### Decisions Made
-- [2026-08-24] doom deleted outright, logo back to one static glyph.
+- [2026-08-31] flat 32px bar, ACCENT=$FG, Noto Sans Mono, 70% BAR_BG.
 ### Next Session Priorities
-1. Commit sketchybar separately from the ghostty work in progress.
-2. Document the `ghostty` package in CLAUDE.md + README.
-
-## Session — 2026-08-22 — Ghostty package
-### Worked On
-- New `ghostty` stow package ported from `kitty.conf`; Homebrew cask adopt; SketchyBar ghost glyph.
-### Completed
-- `config.ghostty` + local `themes/Gruvbox Material Dark Hard`, stowed, `+validate-config` clean and every resolved value checked.
-- `brew install --cask --adopt ghostty` (1.3.1 in place, gained man pages + fish completions) and `cask "ghostty"` in the Brewfile.
-- `ICON_APP_GHOSTTY` U+EEFE + `"Ghostty"` branch in `plugins/front_app.sh`; verified on the live bar and by screenshot.
-### In Progress (with next step)
-- CLAUDE.md + README have no Ghostty section yet — write one next.
-- Carried: `config.fish.bak.*`; reboot-verify daemons; media.
-### Decisions Made
-- [2026-08-22] ghostty package with its own hard-variant theme file; [2026-08-22] Brewfile bootstrap-only cask via `--adopt`.
-### Next Session Priorities
-1. Document the `ghostty` package in CLAUDE.md + README.
-2. Decide GitKraken's glyph — U+F2AC resolves to `fa-snapchat_ghost`, now a visual twin of Ghostty's chip, and this font has no GitKraken glyph.
-3. Drop stray `config.fish.bak.*` before stow.
+1. Rewrite CLAUDE.md SketchyBar section to match the flat bar.
+2. Document the ghostty package in CLAUDE.md + README.

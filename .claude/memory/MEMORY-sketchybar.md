@@ -33,6 +33,13 @@ SketchyBar section, not here. This file is only the traps.
 - sketchybar `label.y_offset` shifts the text without moving the item's own background; item `y_offset` moves both. Stack two lines with item offsets when a bracket owns the box, label offsets when the item does.
 - sketchybar `graph` items take width as a POSITIONAL arg to `--add`, are fed `--push <name> <0.0-1.0>` (fraction, not percent), and plot inside their background rect — so `background.drawing=on` is mandatory and `background.height` is the plot height.
 
+## Appearance
+
+- BAR_BG is BG1 at 70% (`0xb3282828`); a fully-opaque GROUP_BG item box on that bar reads as a solid chip — leave `background.drawing=off`.
+- Bar text is Noto Sans Mono Regular/Bold (variable font on disk); Nerd glyphs stay on `FONT_ICON` ("Symbols Nerd Font Mono") or they tofu. `--query` still cannot prove the face resolved.
+- `ACCENT` is `$FG` (#d4be98), independent of `ORANGE` / borders / kitty color3. Focused workspace digits use it; unfocused stay `$FG_DIM`.
+- Right-side pipes (`add_right_separator` in sketchybarrc) own section spacing; item padding on those chips stays 0.
+
 ## Items, events & queries
 
 - `sketchybar --reload` is ASYNCHRONOUS: a plugin invoked on the next line fails with `[!] Set: Item not found`. Sequence it as a separate call.

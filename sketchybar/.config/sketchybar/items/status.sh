@@ -43,14 +43,23 @@ STATUS_GAP=3
 #     script="$CONFIG_DIR/plugins/battery.sh" \
 #     --subscribe battery power_source_change system_woke
 
-sketchybar --add item volume right \
-    --set volume \
-    padding_left="$STATUS_GAP" \
-    padding_right="$STATUS_GAP" \
-    background.color="$GROUP_BG" \
-    background.drawing=on \
-    script="$CONFIG_DIR/plugins/volume.sh" \
-    --subscribe volume volume_change
+# --- Volume (unhooked) -------------------------------------------------------
+# Removed from the bar with wifi. sketchybarrc no longer sources this file.
+# To bring volume back: uncomment the block and restore
+#   source items/status.sh + add_right_separator sep.volume
+# in sketchybarrc, before the clock separator's left neighbour.
+#
+# sketchybar --add item volume right \
+#     --set volume \
+#     icon.padding_left=0 \
+#     icon.padding_right=4 \
+#     label.padding_left=0 \
+#     label.padding_right=0 \
+#     padding_left=0 \
+#     padding_right=0 \
+#     background.drawing=off \
+#     script="$CONFIG_DIR/plugins/volume.sh" \
+#     --subscribe volume volume_change
 
 # --- Previous clock chip (superseded by items/clock.sh) ----------------------
 # Single chip, clock glyph + "Mon 10 Aug  11:07" on one line. The chip now shows
@@ -91,18 +100,7 @@ sketchybar --add item volume right \
 #     script="$CONFIG_DIR/plugins/wifi.sh" \
 #     --subscribe wifi wifi_change system_woke
 
-# --- Previous cpu chip (superseded by items/cpu.sh) --------------------------
-# Single chip, icon + percentage, driven by plugins/cpu.sh (still on disk).
-# To go back: uncomment this, and remove the items/cpu.sh source line from
-# sketchybarrc. Nothing else references the graph cluster.
-#
-# sketchybar --add item cpu right \
-#     --set cpu \
-#     update_freq=5 \
-#     icon="$ICON_CPU" \
-#     icon.color="$GREEN" \
-#     padding_left="$STATUS_GAP" \
-#     padding_right="$STATUS_GAP" \
-#     background.color="$GROUP_BG" \
-#     background.drawing=on \
-#     script="$CONFIG_DIR/plugins/cpu.sh"
+# --- Previous cpu graph cluster ----------------------------------------------
+# Four-item graph chip (cpu.user/sys/percent/top + bracket) used to live in
+# items/cpu.sh, driven by plugins/cpu_graph.sh. items/cpu.sh is now the simple
+# icon+percent chip again; cpu_graph.sh is still on disk as the revert path.
