@@ -188,6 +188,30 @@ invariants in the active file. Verbatim.*
 
 ## Session History — Archived
 
+*Aged out 2026-09-15 by the size ceiling, not the 4-block cap, to make room for the Neovim Python session. Verbatim.*
+
+## Session — 2026-08-31 — Flatten SketchyBar
+### Worked On
+- Flattening the bar; weather; maple-leaf logo; now-playing chip.
+### Completed
+- 32px bar, BAR_BG BG1@70%, ACCENT=$FG; workspaces are digits (focus=$ACCENT, else $FG_DIM).
+- Right side `media | cpu | ram | weather | clock`; wifi/volume unhooked; CPU nf-oct-cpu; RAM nf-fa-memory.
+- Weather: Open-Meteo + IP location, Celsius + Apple Color Emoji (☀️/🌙 from is_day).
+- Logo is `nf-fa-canadian_maple_leaf` U+EF39 in `$YELLOW`.
+- Media: `media-control` (macOS 26); equalizer while playing, nf-fa-pause when paused.
+- App name only; clock one line with a 3-space date/time gap; text is Noto Sans Mono; AeroSpace top gap 10/40.
+### In Progress (with next step)
+- CLAUDE.md SketchyBar section is stale (graphs, two-line chips, Helvetica, boxes) — rewrite next.
+- Carried: ghostty docs; GitKraken glyph; `config.fish.bak.*`; reboot-verify daemons.
+### Decisions Made
+- [2026-08-31] flat 32px bar, ACCENT=$FG, Noto Sans Mono, 70% BAR_BG.
+- [2026-08-31] weather via Open-Meteo + emoji.
+- [2026-08-31] logo maple leaf, still yellow.
+- [2026-08-31] media via media-control, not media_change.
+### Next Session Priorities
+1. Rewrite CLAUDE.md SketchyBar section to match the flat bar.
+2. Document the ghostty package in CLAUDE.md + README.
+
 *Aged out 2026-08-31 by the size ceiling, not the 4-block cap, to make room for the flatten-bar session. Verbatim.*
 
 ## Session — 2026-08-24 — Doom removal, coffee logo

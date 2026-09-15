@@ -2,13 +2,29 @@ return {
 	"neovim/nvim-lspconfig",
 	config = function()
 		-- Enable LSP servers
-		vim.lsp.enable({ "cssls", "emmet_ls", "html", "lua_ls", "taplo", "ts_ls", "yamlls" })
+		vim.lsp.enable({
+			"basedpyright",
+			"cssls",
+			"emmet_ls",
+			"html",
+			"lua_ls",
+			"ruff",
+			"taplo",
+			"ts_ls",
+			"yamlls",
+		})
 
 		-- Set up LSP keybindings when LSP attaches to a buffer
 		vim.api.nvim_create_autocmd("LspAttach", {
 			callback = function(args)
 				local bufnr = args.buf
 				local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+				-- ruff and basedpyright both attach to Python; keep ruff for
+				-- lint/format and let basedpyright own hover docs.
+				if client and client.name == "ruff" then
+					client.server_capabilities.hoverProvider = false
+				end
 
 				-- Keybindings
 				local opts = { buffer = bufnr, noremap = true, silent = true }

@@ -22,6 +22,10 @@
 
 ## Decisions Log
 
+[2026-09-15] DECISION: Python in Neovim is `basedpyright` + `ruff` (Mason `ensure_installed` and `vim.lsp.enable`) plus the `python` treesitter parser, declared in the existing plugin specs.
+              REASON: Matches how the other languages are listed. basedpyright covers types/completion; ruff covers lint/format. Ruff hover is disabled so basedpyright owns `K`.
+              REJECTED: pyright alone (no lint/format); pylsp; LazyVim `lang.python` extra (extras imports have already failed here for mini.icons and aerial).
+
 [2026-08-31] DECISION: Media chip uses `media-control` (Brewfile), not SketchyBar `media_change`. Playing: equalizer bars; paused: nf-fa-pause + title; stopped: hidden. Item has `updates=on` and `update_freq=1`.
               REASON: `media_change` is deprecated on macOS 26 and does not fire (26.6.2). A hidden item with default `updates=when_shown` never runs its script, so it cannot unhide. `media-control get --no-artwork` talks to MediaRemote.
               REJECTED: nowplaying-cli (same Sequoia breakage); keeping `media_change` as primary.
@@ -46,24 +50,16 @@
 
 ## Session History
 
-## Session — 2026-08-31 — Flatten SketchyBar
+## Session — 2026-09-15 — Neovim Python LSP
 ### Worked On
-- Flattening the bar; weather; maple-leaf logo; now-playing chip.
+- Adding Python to Neovim LSP, Mason, and Treesitter.
 ### Completed
-- 32px bar, BAR_BG BG1@70%, ACCENT=$FG; workspaces are digits (focus=$ACCENT, else $FG_DIM).
-- Right side `media | cpu | ram | weather | clock`; wifi/volume unhooked; CPU nf-oct-cpu; RAM nf-fa-memory.
-- Weather: Open-Meteo + IP location, Celsius + Apple Color Emoji (☀️/🌙 from is_day).
-- Logo is `nf-fa-canadian_maple_leaf` U+EF39 in `$YELLOW`.
-- Media: `media-control` (macOS 26); equalizer while playing, nf-fa-pause when paused.
-- App name only; clock one line with a 3-space date/time gap; text is Noto Sans Mono; AeroSpace top gap 10/40.
+- `basedpyright` + `ruff` in mason/`vim.lsp.enable`; ruff hover off so basedpyright owns `K`.
+- Treesitter `python` parser in `ensure_installed`.
 ### In Progress (with next step)
-- CLAUDE.md SketchyBar section is stale (graphs, two-line chips, Helvetica, boxes) — rewrite next.
-- Carried: ghostty docs; GitKraken glyph; `config.fish.bak.*`; reboot-verify daemons.
+- CLAUDE.md SketchyBar section is still stale (graphs, two-line chips, Helvetica, boxes).
 ### Decisions Made
-- [2026-08-31] flat 32px bar, ACCENT=$FG, Noto Sans Mono, 70% BAR_BG.
-- [2026-08-31] weather via Open-Meteo + emoji.
-- [2026-08-31] logo maple leaf, still yellow.
-- [2026-08-31] media via media-control, not media_change.
+- [2026-09-15] basedpyright + ruff, not LazyVim python extra.
 ### Next Session Priorities
 1. Rewrite CLAUDE.md SketchyBar section to match the flat bar.
 2. Document the ghostty package in CLAUDE.md + README.

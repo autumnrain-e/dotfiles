@@ -13,10 +13,12 @@ return {
 			-- lspconfig-style names; mason-lspconfig maps these to Mason packages
 			-- and installs any that are missing on startup.
 			ensure_installed = {
+				"basedpyright",
 				"cssls",
 				"emmet_ls",
 				"html",
 				"lua_ls",
+				"ruff",
 				"taplo",
 				"ts_ls",
 				"yamlls",
