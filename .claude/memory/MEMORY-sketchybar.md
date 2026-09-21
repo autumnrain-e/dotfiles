@@ -7,8 +7,9 @@ Invariants section, and the programme keeps producing more every session.
 **This file is NOT auto-loaded** — the `load-memory` SessionStart hook injects `MEMORY.md` only.
 Read it before editing anything under `sketchybar/`; `.claude/rules/memory.md` carries that
 trigger. Same rules as the active file's invariants: one line each, never archived, corrected in
-place when they change and deleted when they stop being true. Entries below are verbatim from
-`MEMORY.md`.
+place when they change and deleted when they stop being true. Entries were lifted verbatim from
+`MEMORY.md`; the last section absorbed the SketchyBar part of the former `.claude/tasks/lessons.md`
+on 2026-09-21 (verbose originals: `git show 0e2cae9:.claude/tasks/lessons.md`).
 
 Operational documentation — what each chip is and how to reload the bar — lives in CLAUDE.md's
 SketchyBar section, not here. This file is only the traps.
@@ -59,3 +60,13 @@ SketchyBar section, not here. This file is only the traps.
 - `netstat -bnI <iface>` gives byte counters in ~5ms with no sample window (unlike `iostat` for CPU) — read the `<Link#N>` row, `Ibytes`=$7 / `Obytes`=$10, guarded by `NF >= 11` because a row missing its MAC shifts the fields. Diff against a state file and cap its age, or a sleep/wake smears the average.
 - `vm_stat` gives memory counters instantly with no sample window; usage = (active + wired + compressor-occupied) x page size / `hw.memsize`, and inactive/speculative MUST be excluded or the chip sits near full forever. `memory_pressure` is the trap: ~0.22s per tick, and its "System-wide memory free percentage" counts inactive as free — it read 85% free at the same moment vm_stat read 55% used.
 - macOS 14.4+ gates SSID reads behind Location Services and returns the literal string `<redacted>` rather than an error. It is non-empty, so it silently defeats `${VAR:-default}` guards. Unbundled binaries (sketchybar, launched from AeroSpace) have no TCC identity and can neither hold nor prompt for the grant.
+
+## Plugins & layout debugging
+
+- sketchybar's built-in `space_change` never fires for AeroSpace workspaces (they are not macOS Spaces) — hence the custom `aerospace_workspace_change` event, fired from `exec-on-workspace-change` and seeded once at the end of `sketchybarrc`, because at startup it has not fired and nothing is highlighted.
+- AeroSpace's `exec-and-forget` PATH has no `/opt/homebrew/bin`: `after-startup-command` needs the absolute path and `sketchybarrc` prepends Homebrew, or plugins cannot find `aerospace`, `jq`, `media-control` or `sketchybar` itself.
+- BSD `grep -E` has no `\d` — use `[0-9]`; `'\d+%'` silently matches nothing when parsing `pmset -g batt`.
+- `osascript -e 'output volume of (get volume settings)'` can return the literal `missing value` (output device with no software volume: some DACs, HDMI, AirPlay). Guard the non-numeric case and hide the label; the `volume_change` event's `$INFO` still works.
+- Busiest process is `ps -Aceo pcpu,comm -r | sed -n '2p'` — `-c` gives the accounting name only, `-r` sorts by CPU, so row 2 is the winner. Strip the `com.apple.` prefix.
+- `--move <spacer> before <item>` put the spacer left of the whole neighbouring cluster, not between two items. Order is source position in the item file; do not reverse-engineer `--move`.
+- Geometry drifts for reasons unrelated to an edit: every box left of `volume` once jumped 23px because its plugin picked up a `0%` label and grew. Re-read the neighbours' `bounding_rects` before blaming the change.

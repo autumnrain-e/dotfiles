@@ -10,10 +10,11 @@ Then confirm:
 
 - Treat `## Invariants & Gotchas` as binding — established facts and traps, not suggestions.
   If one bears on the current task, say so before doing anything that contradicts it.
-- **Domain files are NOT injected by the hook.** Two exist, and both are binding in exactly the
+- **Domain files are NOT injected by the hook.** Three exist, and all are binding in exactly the
   same way as the active file's invariants:
   - `sketchybar/` → read `.claude/memory/MEMORY-sketchybar.md` (split out 2026-08-10).
   - `ghostty/` → read `.claude/memory/MEMORY-ghostty.md` (split out 2026-08-22).
+  - `nvim/` → read `.claude/memory/MEMORY-nvim.md` (created 2026-09-21 from the former lessons.md).
   New invariants for either domain go in that domain's file, not the active one; decisions and
   session history always stay in `MEMORY.md`.
 - If a logged decision is relevant to the current task, acknowledge it before proceeding.

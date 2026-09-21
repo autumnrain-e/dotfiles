@@ -33,11 +33,17 @@ return {
 }
 ```
 
-## Current active theme: Everforest Dark Hard
+## Current active theme: Gruvbox Material (dark hard)
 
-File: `nvim/.config/nvim/lua/plugins/everforest.lua`
-Plugin: `neanias/everforest-nvim`
-Options: `background = "hard"`, `italics = false`, `transparent_background_level = 2`
+File: `nvim/.config/nvim/lua/plugins/gruvbox-material.lua`
+Plugin: `sainnhe/gruvbox-material`
+Options (set as `vim.g.*` inside `config`, not via `opts`): `gruvbox_material_background = "hard"`,
+`gruvbox_material_foreground = "material"`, `gruvbox_material_enable_italic = 0`,
+`gruvbox_material_transparent_background = 2`, `gruvbox_material_better_performance = 1`
+
+`everforest.lua` (`neanias/everforest-nvim`) is kept on disk with `lazy = true` and no
+`colorscheme` call, so it does not conflict. That is the one sanctioned exception to
+"delete the old file" below.
 
 ## Checklist when switching themes
 

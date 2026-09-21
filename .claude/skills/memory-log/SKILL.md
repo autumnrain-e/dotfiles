@@ -11,9 +11,12 @@ on-demand procedure for WRITING to the log and keeping it healthy.
 
 ## Relationship to native Auto Memory
 Native Claude Code Auto Memory is intentionally DISABLED at project level
-(`autoMemoryEnabled: false` in `.claude/settings.json`). It is machine-local and not shared
-via git; this project's committed `MEMORY.md` is the single, team-shared source of truth. Do
-not re-enable it here — running both creates two parallel, diverging memory systems.
+(`autoMemoryEnabled: false` in `.claude/settings.json`). The reason is structure and curation,
+not portability: native memory is free-form and written opportunistically, with no decision
+log, no REJECTED alternatives and no conflict-flagging rule. Its `autoMemoryDirectory` setting
+can point it inside a repo, so "machine-local, not shared via git" is no longer the argument —
+do not cite it. This project's committed `MEMORY.md` is the single source of truth. Do not
+re-enable native memory here — two writers to one memory diverge.
 
 ## On any significant decision
 Append to the Decisions Log immediately:
@@ -70,9 +73,9 @@ Applies to `.claude/memory/MEMORY.md`.
 
 - **Decisions Log — substance kept forever, bulk is not.** Never rewrite what was decided or
   why. But when you supersede an entry, or an entry records a one-off change that has fully
-  shipped, relocate it **verbatim** to `MEMORY_archive.md` in the SAME edit — under a
-  `## Decisions Log — Archived` heading, noting when and why it moved. Superseded text left in
-  the active log is pure cost: read every session, never actionable.
+  shipped, relocate it **verbatim** to `.claude/memory/MEMORY_archive.md` in the SAME edit —
+  under a `## Decisions Log — Archived` heading, noting when and why it moved. Superseded text
+  left in the active log is pure cost: read every session, never actionable.
 - **Invariants & Gotchas — never archived, but they do NOT stay cheap.** The "one-liners are
   self-limiting" premise failed in practice: ~75 invariants averaging ~330 B are structurally
   ~23 KB — 2.6× the entire budget on their own. When invariants alone approach the ceiling, the
@@ -82,8 +85,8 @@ Applies to `.claude/memory/MEMORY.md`.
 - **Session History — cap at 4.** On every session-end write, if there are more than 4 blocks
   OR the file is over target, move the oldest block(s) to `.claude/memory/MEMORY_archive.md`
   (create if absent) before appending the new one. The archive is never read automatically.
-- **Target ≤120 lines. HARD ceiling ≤8,900 characters per active file — a functional limit, not
-  a style target.** The hooks reference caps hook output at 10,000 characters; a 2026-08-06 field
+- **Target ≤120 lines. HARD ceiling ≤8,900 characters for the hook-injected `MEMORY.md` — a
+  functional limit, not a style target. Domain files are read on demand and are not bound by it.** The hooks reference caps hook output at 10,000 characters; a 2026-08-06 field
   measurement instead saw 24,358 B inject cleanly. The conflict is unresolved, so budget under the
   stricter number. Past the threshold (the file itself + 108 B of wrapper) the harness stops
   injecting and substitutes a preview, so **memory silently stops loading while the hook still

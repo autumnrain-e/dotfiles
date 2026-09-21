@@ -11,6 +11,24 @@ recorded a one-off change which has fully shipped. Archived decisions are stored
 
 ## Decisions Log — Archived
 
+*Relocated 2026-09-21 — fully shipped 2026-08-31 SketchyBar one-offs plus the flatten decision; their durable facts survive as invariants in `MEMORY-sketchybar.md` (media_change dead, Open-Meteo/IP geolocation, ACCENT = FG, BAR_BG 70%). Made room for the docs-layering and native-memory decisions. Verbatim.*
+
+[2026-08-31] DECISION: Media chip uses `media-control` (Brewfile), not SketchyBar `media_change`. Playing: equalizer bars; paused: nf-fa-pause + title; stopped: hidden. Item has `updates=on` and `update_freq=1`.
+              REASON: `media_change` is deprecated on macOS 26 and does not fire (26.6.2). A hidden item with default `updates=when_shown` never runs its script, so it cannot unhide. `media-control get --no-artwork` talks to MediaRemote.
+              REJECTED: nowplaying-cli (same Sequoia breakage); keeping `media_change` as primary.
+
+[2026-08-31] DECISION: Logo is `nf-fa-canadian_maple_leaf` U+EF39, still `$YELLOW`. Coffee/pom-away/ghost stay commented alts. Supersedes archived [2026-08-24] coffee logo.
+              REASON: User asked for the maple leaf after the flatten.
+              REJECTED: Recolouring it to Canadian red — not asked.
+
+[2026-08-31] DECISION: Weather chip after RAM uses Open-Meteo (no key) + IP geolocation (24h cache), Celsius, and Apple Color Emoji (☀️/🌙 from `is_day`). `icon.font` is Apple Color Emoji; `icon.color` is white so they are not tinted to ACCENT.
+              REASON: User wanted temp + condition at current location. Open-Meteo beats a keyed API here: sketchybar is launched from AeroSpace and cannot see `secrets.fish`. IP, not CoreLocation — the bar has no TCC identity (same as SSID).
+              REJECTED: WeatherAPI.com (gitignored key file for no gain at 48 calls/day); Nerd Font weather glyphs (user preferred emoji after seeing them live).
+
+[2026-08-31] DECISION: SketchyBar is a flat 32px strip — no item boxes, workspace digits recolor on focus, right side `media | cpu | ram | clock` with pipes, wifi/volume unhooked (files kept). Text is Noto Sans Mono; Nerd glyphs stay on FONT_ICON. BAR_BG is BG1 @ 70% (`0xb3282828`). ACCENT is `$FG` (#d4be98), not borders orange. AeroSpace top gap is `[{ monitor."built-in" = 10 }, 40]`.
+              REASON: User dropped the boxed/two-line look, then iterated color (orange → #C88C6A → coffee yellow → FG), alpha (opaque → 70%), font, and which sections stay.
+              REJECTED: Copying the reference layout; keeping CPU graphs / two-line wifi / the two-tone app chip; tying ACCENT to borders; putting Nerd glyphs on Noto (tofu); nf-fa-memory as wifi-up (already RAM).
+
 *Relocated 2026-08-31 (later) — fully shipped Brewfile cask adopt, to make room for the media-control decision. Verbatim.*
 
 [2026-08-22] DECISION: `cask "ghostty"` is in the Brewfile as a bootstrap-only entry, reconciled with the already-installed 1.3.1 via `brew install --cask --adopt`.
@@ -187,6 +205,22 @@ invariants in the active file. Verbatim.*
 ---
 
 ## Session History — Archived
+
+*Aged out 2026-09-21 by the size ceiling to make room for the docs-layering session. Verbatim.*
+
+## Session — 2026-09-15 — Neovim Python LSP
+### Worked On
+- Adding Python to Neovim LSP, Mason, and Treesitter.
+### Completed
+- `basedpyright` + `ruff` in mason/`vim.lsp.enable`; ruff hover off so basedpyright owns `K`.
+- Treesitter `python` parser in `ensure_installed`.
+### In Progress (with next step)
+- CLAUDE.md SketchyBar section is still stale (graphs, two-line chips, Helvetica, boxes).
+### Decisions Made
+- [2026-09-15] basedpyright + ruff, not LazyVim python extra.
+### Next Session Priorities
+1. Rewrite CLAUDE.md SketchyBar section to match the flat bar.
+2. Document the ghostty package in CLAUDE.md + README.
 
 *Aged out 2026-09-15 by the size ceiling, not the 4-block cap, to make room for the Neovim Python session. Verbatim.*
 
