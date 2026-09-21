@@ -1,4 +1,4 @@
-vim.cmd("filetype plugin indent on")
-require("config.lazy")
-require("config/options")
-require("config/keymaps")
+require("vim._core.ui2").enable({})
+
+require("options")
+require("keymaps")
