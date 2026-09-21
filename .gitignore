@@ -7,3 +7,17 @@ secrets.fish
 # config.toml is the real config and stays tracked.
 cliamp/.config/cliamp/*.log
 cliamp/.config/cliamp/history.toml
+cliamp/.config/cliamp/resume.json
+
+# Emacs generated state — never tracked
+emacs/.emacs.d/elpa/
+emacs/.emacs.d/eln-cache/
+emacs/.emacs.d/auto-save-list/
+emacs/.emacs.d/custom.el
+emacs/.emacs.d/transient/
+emacs/.emacs.d/tutorial/
+emacs/.emacs.d/*~
+emacs/.emacs.d/\#*\#
+
+# Emacs autosave files anywhere in the tree (e.g. kitty/.config/kitty/#kitty.conf#)
+\#*\#
