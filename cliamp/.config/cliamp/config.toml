@@ -26,7 +26,7 @@ eq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 # Visualizer mode (leave empty for default Bars)
 # Options: Bars, BarsDot, Rain, BarsOutline, Bricks, Columns, ClassicPeak, Wave, Scatter, Flame, Retro, Pulse, Matrix, Binary, Sakura, Firework, Bubbles, Logo, Terrain, Glitch, Scope, Heartbeat, Butterfly, Lightning, None
-visualizer = "Wave"
+visualizer = "BarsDot"
 
 # Compact mode: cap UI width at 80 columns (default: fluid/full-width)
 compact = false
