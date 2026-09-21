@@ -39,6 +39,7 @@ alias gproxy_local='./gproxy_darwin_m1 --static /Users/antonio/LnW/games/gproxy/
 alias gproxy_cw='./gproxy_darwin_m1 --static /Users/antonio/LnW/games/gproxy/games --profile wrapper'
 alias cps='gulp --gdm-gproxy'
 alias gs='gulp --serve'
+alias gclean='gulp --clean'
 alias gdot='cd ~/.dotfiles'
 alias gconf='cd ~/.config'
 

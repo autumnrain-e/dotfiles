@@ -4,7 +4,7 @@ set fish_greeting ""
 if status is-interactive
     # Commands to run in interactive sessions can go here
     sleep 0.1
-    fastfetch
+    # fastfetch
 end
 
 # FNM
@@ -44,7 +44,7 @@ alias gproxy_local='./gproxy_darwin_m1 --static /Users/antonio/LnW/games/gproxy/
 alias gproxy_cw='./gproxy_darwin_m1 --static /Users/antonio/LnW/games/gproxy/games --profile wrapper'
 alias cps='gulp --gdm-gproxy'
 alias gs='gulp --serve'
-alias gc='gulp --clean'
+alias gclean='gulp --clean'
 
 # Aliases Wrapper
 alias slwrapper='ln -s /Users/antonio/LnW/gdm-frontend/release/temp/gdmwrapper/* /Users/antonio/LnW/games/gproxy/games'
@@ -62,6 +62,7 @@ alias obsidian='~/Documents/Antonio && nvim .'
 alias lg='lazygit'
 alias cl='claude'
 alias ku='curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin'
+alias obb='open -a "Brave Browser"'
 
 # Aliases AeroSpace
 # ascheck validates aerospace.toml without applying it — run it before asreload.
