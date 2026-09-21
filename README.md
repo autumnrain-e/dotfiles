@@ -64,7 +64,7 @@ zsh/        →  ~/.zprofile, ~/.zshrc
 
 ```bash
 # Clone
-git clone https://gitlab.com/autumnrain-e/dotfiles.git ~/dotfiles
+git clone git@github.com:autumnrain-e/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
 # Tooling (CLI tools, borders, sketchybar, media-control, Nerd Font cask, Ghostty cask)
