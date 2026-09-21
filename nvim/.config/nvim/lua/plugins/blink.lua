@@ -36,9 +36,10 @@ return {
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
-			per_filetype = {
-				markdown = { "obsidian", "obsidian_new", "obsidian_tags", "lsp", "path", "snippets", "buffer" },
-			},
+			-- obsidian.nvim completes via its in-process LSP now, not blink
+			-- providers named "obsidian" / "obsidian_new" / "obsidian_tags".
+			-- Listing those here crashes InsertEnter on any markdown buffer,
+			-- including ipynb.nvim markdown cells.
 		},
 
 		-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
