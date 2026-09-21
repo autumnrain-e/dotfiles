@@ -87,13 +87,44 @@ shell-integration-features = no-cursor
 # timer". Ghostty has the boolean but no timeout knob.
 mouse-hide-while-typing = true
 
+# --- Cursor trail (kitty's `cursor_trail`, recovered via a custom shader) ---
+# There is still no cursor-trail *setting*, but Ghostty runs Shadertoy-compatible
+# GLSL over the finished frame and exposes iCurrentCursor / iPreviousCursor /
+# iTimeCursorChange precisely so a shader can draw one. shaders/cursor_sweep.glsl
+# is the "Cursor Sweep" shader from github.com/sahaj-b/ghostty-cursor-shaders
+# (MIT), vendored into this package with its trail colour pinned to #ddc7a1 —
+# see the header in that file for the local-changes list.
+#
+# The path is relative to THIS file's directory (~/.config/ghostty, itself the
+# stow symlink into the repo), so the shader travels with `stow ghostty` and no
+# absolute path is baked in. `ghostty +show-config` echoes the resolved path.
+#
+# `custom-shader` ACCUMULATES like keybind/palette: repeat the key to stack
+# effects. They run in listed order and each one's output becomes the next one's
+# iChannel0 texture, so order is the compositing order.
+#
+# A shader that fails to COMPILE is ignored silently — compilation happens on the
+# render thread after the config is loaded, so it is never a config error and
+# `+validate-config` cannot catch it. "The trail stopped working" after an edit
+# means a GLSL error, not a missing setting.
+custom-shader = shaders/cursor_sweep.glsl
+
+# Left at its default `true`: the animation loop runs only while the surface is
+# focused (Ghostty quotes <10% CPU). `always` animates unfocused surfaces too and
+# pays that per surface — pointless for a cursor that cannot move while
+# unfocused. `false` renders only on terminal updates, which strands the trail
+# mid-sweep whenever output stops.
+# custom-shader-animation = true
+
 # NO EQUIVALENT in Ghostty:
 #   cursor_blink_interval 500        — blink rate follows the macOS system rate
 #   cursor_stop_blinking_after 15.0  — blinking never auto-stops
-#   cursor_trail 3                   — Ghostty has no cursor-trail animation at all
-#   cursor_trail_decay 0.05 0.2
-#   cursor_trail_start_threshold 1
-# The trail is the one visible feature lost in this port.
+#   cursor_trail 3                   — no built-in trail; the shader above stands
+#   cursor_trail_decay 0.05 0.2        in for all three. Its knobs are not 1:1:
+#   cursor_trail_start_threshold 1     DURATION + TRAIL_LENGTH + a swappable
+#                                      easing curve replace the decay pair, and
+#                                      the start threshold is hardcoded to 1.5
+#                                      cell heights (`minDist` in the shader).
 
 
 # ------------------------------------------------------------------------------
