@@ -13,6 +13,12 @@ recorded a one-off change which has fully shipped. Archived decisions are stored
 
 *Relocated 2026-09-21 — fully shipped 2026-08-31 SketchyBar one-offs plus the flatten decision; their durable facts survive as invariants in `MEMORY-sketchybar.md` (media_change dead, Open-Meteo/IP geolocation, ACCENT = FG, BAR_BG 70%). Made room for the docs-layering and native-memory decisions. Verbatim.*
 
+*Relocated 2026-10-08 — a fully shipped rewording; the rule itself lives in the `memory-log` skill and `autoMemoryEnabled: false`. Made room under the 8,900-char ceiling. Verbatim.*
+
+[2026-09-21] DECISION: Native Auto Memory stays OFF, but the documented reason is now curation and structure, not portability; `memory-log` skill and `memory-upgrade.md` reworded.
+              REASON: `autoMemoryDirectory` can point native memory inside a repo, so "machine-local, not shared via git" was disprovable and weakened the rule it defended.
+              REJECTED: Enabling it aimed at `.claude/memory/` — a second, unstructured writer to the same truth.
+
 [2026-08-31] DECISION: Media chip uses `media-control` (Brewfile), not SketchyBar `media_change`. Playing: equalizer bars; paused: nf-fa-pause + title; stopped: hidden. Item has `updates=on` and `update_freq=1`.
               REASON: `media_change` is deprecated on macOS 26 and does not fire (26.6.2). A hidden item with default `updates=when_shown` never runs its script, so it cannot unhide. `media-control get --no-artwork` talks to MediaRemote.
               REJECTED: nowplaying-cli (same Sequoia breakage); keeping `media_change` as primary.
@@ -205,6 +211,23 @@ invariants in the active file. Verbatim.*
 ---
 
 ## Session History — Archived
+
+*Aged out 2026-10-08 by the size ceiling to make room for the slow-kitty-tab session. Verbatim.*
+
+## Session — 2026-09-21 — Docs layering, lessons fold
+### Worked On
+- Native Auto Memory vs this protocol; CLAUDE.md rewrite; lessons fold.
+### Completed
+- CLAUDE.md rewritten (structure/how-to only; flat-bar SketchyBar, Ghostty, AeroSpace, emacs/cliamp/raycast); README corrected.
+- `MEMORY-nvim.md` created; lessons.md + `update-lessons` deleted; `update-claude-md`, `nvim-colorscheme`, `memory-log`, runbook fixed.
+- `gc` deduped: gulp one is now `gclean` (fish + zsh); `cliamp/resume.json` gitignored; whole tree committed.
+### In Progress (with next step)
+- None.
+### Decisions Made
+- [2026-09-21] docs layering; [2026-09-21] native-memory rationale.
+### Next Session Priorities
+1. `opencode/`: add a theme or drop the package.
+2. `kitty/.config/kitty/kitty-terminal.png` (1.1 MB, untracked, unreferenced): use in README or delete.
 
 *Aged out 2026-09-21 by the size ceiling to make room for the docs-layering session. Verbatim.*
 

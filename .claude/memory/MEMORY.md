@@ -25,16 +25,14 @@
 - Yazi config = overrides only: 26.5.6 rejected a pasted full default (`$schema` key; `[plugin]` fetchers need `group`) and `yazi --version` shows the parse error. `use_lscolors` does not exist. `[filetype]` colours filename TEXT, `[icon]` the GLYPH — directories need both; `[icon] prepend_conds` needs `text` (U+E5FF via Python).
 - `aerospace focus --window-id` moves focus to that window's OWN workspace, so `--workspace focused` then lists only it and other windows look "vanished" — use `list-windows --all`. `enable on --fail-if-noop` exits 2 silently; secure input blocks hotkeys — check `ioreg -l -d 1 -k IOConsoleUsers | grep kCGSSessionSecureInputPID`.
 - Claude Code skills must be `.claude/skills/<name>/SKILL.md`; a flat `.claude/skills/<name>.md` is never loaded.
+- New kitty tab = `/usr/bin/login` → `kitten run-shell` → fish; warm ≈230 ms to prompt. `custom_shaders` costs ~250 ms at kitty cold start only; `~/.hushlogin` saves nothing; big-repo prompts are cache-bound (starship `git_status` 321 ms cold → 45 ms warm). fish 4 blocks until the terminal answers DA1 — a pty test harness must reply.
+- `zsh/` is NOT stowed here: no `~/.zshrc`, `~/.zprofile` is an unrelated 47-byte file — zsh runs none of the repo config, and `.zshrc`'s `STARSHIP_CONFIG` path does not exist.
 
 ## Decisions Log
 
 [2026-09-21] DECISION: Docs are layered — CLAUDE.md = structure + how to operate; memory = why, REJECTED alternatives, traps. `.claude/tasks/lessons.md` + the `update-lessons` skill deleted, facts folded into MEMORY.md, `MEMORY-sketchybar.md` and a new `MEMORY-nvim.md`; CLAUDE.md cut 33→19 KB, SketchyBar section rewritten for the flat bar.
               REASON: CLAUDE.md contradicted memory every session (39px/47pt vs 32px/40pt, Helvetica vs Noto) and lessons.md was a fourth gotcha store nothing loaded. One home per fact.
               REJECTED: Native Auto Memory instead (no decision log, no conflict flagging); a domain file per tiny package — kitty/yazi fit here.
-
-[2026-09-21] DECISION: Native Auto Memory stays OFF, but the documented reason is now curation and structure, not portability; `memory-log` skill and `memory-upgrade.md` reworded.
-              REASON: `autoMemoryDirectory` can point native memory inside a repo, so "machine-local, not shared via git" was disprovable and weakened the rule it defended.
-              REJECTED: Enabling it aimed at `.claude/memory/` — a second, unstructured writer to the same truth.
 
 [2026-09-15] DECISION: Python in Neovim is `basedpyright` + `ruff` (Mason `ensure_installed` and `vim.lsp.enable`) plus the `python` treesitter parser, declared in the existing plugin specs.
               REASON: Matches how the other languages are listed. basedpyright covers types/completion; ruff covers lint/format. Ruff hover is disabled so basedpyright owns `K`.
@@ -48,17 +46,17 @@
 
 ## Session History
 
-## Session — 2026-09-21 — Docs layering, lessons fold
+## Session — 2026-10-08 — Slow new kitty tab
 ### Worked On
-- Native Auto Memory vs this protocol; CLAUDE.md rewrite; lessons fold.
+- "~2 s before I can type" in new kitty tabs; starship and zsh-vs-fish opinions.
 ### Completed
-- CLAUDE.md rewritten (structure/how-to only; flat-bar SketchyBar, Ghostty, AeroSpace, emacs/cliamp/raycast); README corrected.
-- `MEMORY-nvim.md` created; lessons.md + `update-lessons` deleted; `update-claude-md`, `nvim-colorscheme`, `memory-log`, runbook fixed.
-- `gc` deduped: gulp one is now `gclean` (fish + zsh); `cliamp/resume.json` gitignored; whole tree committed.
+- Measured: real tabs ≈230 ms warm, 0.95 s worst (cold cache); kitty, shader, login ruled out.
+- Removed dead `sleep 0.1` from fish's interactive block (0.25 → 0.11 s); uncommitted.
 ### In Progress (with next step)
-- None.
+- 2 s not reproduced; if it persists, measure in the live kitty from the user's usual cwd.
 ### Decisions Made
-- [2026-09-21] docs layering; [2026-09-21] native-memory rationale.
+- None logged; fish stays primary (status quo).
 ### Next Session Priorities
-1. `opencode/`: add a theme or drop the package.
-2. `kitty/.config/kitty/kitty-terminal.png` (1.1 MB, untracked, unreferenced): use in README or delete.
+1. MEMORY.md is at its ceiling: split AeroSpace invariants into `MEMORY-aerospace.md`.
+2. `zsh/`: stow it or drop the fish/zsh sync rule.
+3. Carried: `opencode/` theme or drop; untracked `kitty-terminal.png` use or delete.
