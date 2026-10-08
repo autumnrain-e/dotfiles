@@ -62,6 +62,7 @@ alias lg='lazygit'
 alias cl='claude'
 alias ku='curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin'
 alias obb='open -a "Brave Browser"'
+alias pipes.sh='/opt/homebrew/bin/bash /opt/homebrew/bin/pipes.sh'
 
 # Aliases AeroSpace
 # ascheck validates aerospace.toml without applying it — run it before asreload.
